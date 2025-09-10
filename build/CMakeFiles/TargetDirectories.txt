@@ -1,8 +1,0 @@
-/drives/Toyota/Proyectos/SDL2/build/CMakeFiles/edit_cache.dir
-/drives/Toyota/Proyectos/SDL2/build/CMakeFiles/rebuild_cache.dir
-/drives/Toyota/Proyectos/SDL2/build/src/ENGINE/CMakeFiles/ENGINE.dir
-/drives/Toyota/Proyectos/SDL2/build/src/ENGINE/CMakeFiles/edit_cache.dir
-/drives/Toyota/Proyectos/SDL2/build/src/ENGINE/CMakeFiles/rebuild_cache.dir
-/drives/Toyota/Proyectos/SDL2/build/src/GAME/CMakeFiles/sdl2.dir
-/drives/Toyota/Proyectos/SDL2/build/src/GAME/CMakeFiles/edit_cache.dir
-/drives/Toyota/Proyectos/SDL2/build/src/GAME/CMakeFiles/rebuild_cache.dir

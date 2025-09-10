@@ -1,9 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/drives/Toyota/Proyectos/SDL2/build/cmake_install.cmake",
-		"/drives/Toyota/Proyectos/SDL2/build/src/ENGINE/cmake_install.cmake",
-		"/drives/Toyota/Proyectos/SDL2/build/src/GAME/cmake_install.cmake"
-	],
-	"Parallel" : false
-}
