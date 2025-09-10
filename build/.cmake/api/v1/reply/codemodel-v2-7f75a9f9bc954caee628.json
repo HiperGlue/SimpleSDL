@@ -1,0 +1,101 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10.0"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "src/ENGINE",
+					"jsonFile" : "directory-src.ENGINE-Debug-ffaa6537d5ce0ea4b226.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src/ENGINE",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "src/GAME",
+					"jsonFile" : "directory-src.GAME-Debug-aded2f3d2cf410ac0c34.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "src/GAME",
+					"targetIndexes" : 
+					[
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2
+					],
+					"name" : "sdl2",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "ENGINE::@7d8e6500129f6cc6255c",
+					"jsonFile" : "target-ENGINE-Debug-03cd179a8f3128f117ef.json",
+					"name" : "ENGINE",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "sdl2::@39c3676841ca17b7cb75",
+					"jsonFile" : "target-sdl2-Debug-7f51dac37f2862c5f73d.json",
+					"name" : "sdl2",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/drives/Toyota/Proyectos/SDL2/build",
+		"source" : "/drives/Toyota/Proyectos/SDL2"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 8
+	}
+}
