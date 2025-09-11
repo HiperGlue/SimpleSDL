@@ -24,7 +24,8 @@ class Game{
 
         std::unique_ptr<Camera> mainCamera;
 
-        std::vector<std::shared_ptr<Object>> updatableObjects;
+        std::vector<std::shared_ptr<Object>> updatables;
+        std::vector<std::shared_ptr<Collider>> collidables;
 
         std::vector<SDL_Keycode> keyPoolDown;
         std::vector<SDL_Keycode> keyPoolUp;
@@ -48,8 +49,9 @@ class Game{
         
         SDL_Texture* S_LoadTexture(const char* file);
         
-        void S_AddToUpdatables(std::shared_ptr<Object> updatableObject);
-        void S_AddToRenderizables(std::shared_ptr<Sprite> renderizableObject);
+        void S_AddToUpdatables(std::shared_ptr<Object> updatable);
+        void S_AddToCollidables(std::shared_ptr<Collider> collidable);
+        void S_AddToRenderizables(std::shared_ptr<Sprite> renderizable);
         void S_ClearObjects();
     public:
         static bool IsRunning();
@@ -77,6 +79,10 @@ class Game{
         static SDL_Texture* LoadTexture(const char* file);
 
         static void AddToUpdatables(std::shared_ptr<Object> updatable);
+        static void AddToCollidables(std::shared_ptr<Collider> collidable);
         static void AddToRenderizables(std::shared_ptr<Sprite> renderizable);
+
+        static const std::vector<std::shared_ptr<Collider>>& GetCollidables();
+
         static void ClearObjects();
 };

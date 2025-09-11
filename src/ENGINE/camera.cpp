@@ -12,8 +12,8 @@ Camera::Camera(SDL_Renderer* _targetRenderer){
 void Camera::Render(){
     Vector renderSizeHalf = transform->GetSize() * .5f;
 
-    for (int i = 0; i < renderizableObjects.size(); i++){
-        std::shared_ptr<Sprite> objectSprite = renderizableObjects[i];
+    for (int i = 0; i < renderizables.size(); i++){
+        std::shared_ptr<Sprite> objectSprite = renderizables[i];
         std::shared_ptr<Transform> objectTransform = objectSprite->transform;
 
         Vector centeredPosition = Vector(
@@ -56,7 +56,7 @@ void Camera::SetBackgroundColor(Color _backgroundColor){
 }
 
 void Camera::AddToRenderizables(std::shared_ptr<Sprite> renderizable){
-    renderizableObjects.push_back(renderizable);
+    renderizables.push_back(renderizable);
 }
 
-void Camera::ClearRenderizables(){ renderizableObjects.clear(); }
+void Camera::ClearRenderizables(){ renderizables.clear(); }

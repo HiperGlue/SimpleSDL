@@ -67,8 +67,8 @@ void Game::S_Update(){
     deltaTime = (currentTicks - Get().lastTicks) / 1000.0f;
     lastTicks = currentTicks;
 
-    for (int i = 0; i < updatableObjects.size(); i++){
-        updatableObjects[i]->Update(deltaTime);
+    for (int i = 0; i < updatables.size(); i++){
+        updatables[i]->Update(deltaTime);
     }
 }
 
@@ -121,7 +121,11 @@ SDL_Texture* Game::S_LoadTexture(const char* file){
 }
 
 void Game::S_AddToUpdatables(std::shared_ptr<Object> updatable){
-    updatableObjects.push_back(updatable);
+    updatables.push_back(updatable);
+}
+
+void Game::S_AddToCollidables(std::shared_ptr<Collider> collidable){
+    collidables.push_back(collidable);
 }
 
 void Game::S_AddToRenderizables(std::shared_ptr<Sprite> renderizable){
@@ -129,7 +133,7 @@ void Game::S_AddToRenderizables(std::shared_ptr<Sprite> renderizable){
 }
 
 void Game::S_ClearObjects(){
-    updatableObjects.clear();
+    updatables.clear();
     mainCamera->ClearRenderizables();
 }
 
@@ -157,5 +161,7 @@ bool Game::GetKeyHold(SDL_Keycode key){ return Get().S_GetKeyHold(key); }
 bool Game::GetKeyUp(SDL_Keycode key){ return Get().S_GetKeyUp(key); }
 SDL_Texture* Game::LoadTexture(const char* file){ return Get().S_LoadTexture(file); }
 void Game::AddToUpdatables(std::shared_ptr<Object> updatable) { Get().S_AddToUpdatables(updatable); }
+void Game::AddToCollidables(std::shared_ptr<Collider> collidable) { Get().S_AddToCollidables(collidable); }
 void Game::AddToRenderizables(std::shared_ptr<Sprite> renderizable) { Get().S_AddToRenderizables(renderizable); }
+const std::vector<std::shared_ptr<Collider>>& Game::GetCollidables() { Get().collidables; }
 void Game::ClearObjects(){ Get().ClearObjects(); }

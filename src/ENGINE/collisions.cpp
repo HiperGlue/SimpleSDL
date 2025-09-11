@@ -19,5 +19,8 @@ void Collider::Update(float deltaTime){
 /*------------------------------MAIN FUNCTIONS------------------------------*/
 
 void Collider::CalculateCollision(){
-    
+    auto collidables = Game::GetCollidables();
+    for (int i = 0; i < collidables.size(); i++){
+        auto collidable = collidables[i];
+    }
 }

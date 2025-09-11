@@ -10,7 +10,7 @@
 
 class Camera{
     private:
-        std::vector<std::shared_ptr<Sprite>> renderizableObjects;
+        std::vector<std::shared_ptr<Sprite>> renderizables;
     protected:
         Color backgroundColor;
         SDL_Renderer* targetRenderer;
