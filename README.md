@@ -1,12 +1,11 @@
-![Madotsuki in a witch costume](https://i.imgur.com/YPeM83X.png)
-
 # \[C++/SDL2] HIPERGLUE'S BASIC GAME ENGINE
+
+![Madotsuki in a witch costume](https://i.imgur.com/ifysW4J.png)
 
 ## What is this?
 
 This is a basic project of a 2D game engine developed with C++ & SDL. It was made with the sole porpuse of learning the C++ language and to
 avoid me the need to use a commercial game engine for my simple games.\
-\
 
 ## How to set-up
 
@@ -15,7 +14,6 @@ This project is build using CMake and it is separated in to two modules:
 + **A videogame**, only made for testing and showcasing the capabilites of the project
 \
 If you want to only use the engine, just get rid of the 'GAME' folders\
-\
 
 ## Capabilites and components
 
