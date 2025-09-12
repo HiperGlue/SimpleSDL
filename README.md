@@ -7,7 +7,7 @@
 This is a basic project of a __2D game engine__ developed with **C++** & **SDL**. It was made with the sole porpuse of learning the C++ language and to
 avoid me the need of using a commercial one for my simple games.
 
-## How to set-up
+## How to use
 
 This project is build using CMake and it is separated into two modules:
 + **The engine**, which is just a static library
