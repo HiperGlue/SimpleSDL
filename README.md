@@ -1,5 +1,9 @@
-# C++/SDL2 - EJEMPLO DE FRAMEWORK
+# [\C++/SDL2]\ MOTOR BÁSICO 
 
-Esto es un pequeño proyecto de un framework o motor creado usando únicamente C++ y SDL con la finalidad de aprender y crear una plataforma en la que yo pueda crear mis videojuegos con una completa libertad de customización y comercialización.\
+Este es un pequeño proyecto de un motor de videojuegos 2D básico desarrollado con C++ y SDL con la finalidad de aprender y crear una plataforma en la que yo pueda crear mis videojuegos con una completa libertad de customización y comercialización.\
 \
-El proyecto está dividido en 2 módulos, el motor en sí que se compila a una librería estática y un videojuego para probar las funcionalidades de este.
+El proyecto está compuesto en dos módulos:
++ El motor, el es una librería estática
++ Un simple videojuego, solamente existe para probar las funcionalidades de este proyecto
+
+![Madotsuki in a witch costume](https://i.imgur.com/3Pyqcvw.png)
