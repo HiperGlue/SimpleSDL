@@ -7,4 +7,7 @@ find_package(SDL2_image REQUIRED)
 include_directories(include)
 
 add_subdirectory(src/ENGINE)
-add_subdirectory(src/GAME)
+
+if(EXISTS "src/GAME")
+    add_subdirectory(src/GAME)
+endif()
