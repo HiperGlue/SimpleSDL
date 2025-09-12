@@ -8,6 +8,6 @@ include_directories(include)
 
 add_subdirectory(src/ENGINE)
 
-if(EXISTS "src/GAME")
-    add_subdirectory(src/GAME)
+if(EXISTS CMakeLists-local.txt)
+    include(CMakeLists-local.txt)
 endif()

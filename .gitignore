@@ -6,3 +6,5 @@ cmake/
 
 src/GAME
 include/GAME
+
+CMakeLists-local.txt
