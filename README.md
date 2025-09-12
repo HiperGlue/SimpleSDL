@@ -9,11 +9,7 @@ avoid me the need of using a commercial one for my simple games.
 
 ## How to use
 
-This project is build using CMake and it is separated into two modules:
-+ **The engine**, which is just a static library
-+ **A videogame**, only made for testing and showcasing the capabilites of the engine
-
-If you want to only use the engine, just get rid of the 'GAME' folders in the project
+This project is build using CMake and it is configured to compile as an static library
 
 ## Capabilites and components
 
