@@ -9,7 +9,8 @@ avoid me the need of using a commercial one for my simple games.
 
 ## How to use
 
-This project is build using CMake and it is configured to compile as an static library
+This project is build using CMake and compiled as an static library
+In order to use it just include the .lib/.a file and the include folder into your project
 
 ## Capabilites and components
 
