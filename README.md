@@ -1,4 +1,4 @@
-# \[C++/SDL2] HIPERGLUE'S BASIC GAME ENGINE
+# SIMPLESDL: A BASIC 2D ENGINE
 
 ![Madotsuki in a witch costume](https://i.imgur.com/ifysW4J.png)
 
