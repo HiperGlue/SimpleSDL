@@ -6,7 +6,7 @@
 #include "object.hpp"
 
 class Collider{
-    protected:
+    private:
         std::shared_ptr<Transform> transform;
         Vector offset;
         Vector size;

@@ -6,7 +6,7 @@ find_package(SDL2_image REQUIRED)
 
 include_directories(include)
 
-add_subdirectory(src/ENGINE)
+add_subdirectory(src/SIMPLESDL)
 
 if(EXISTS CMakeLists-local.txt)
     include(CMakeLists-local.txt)

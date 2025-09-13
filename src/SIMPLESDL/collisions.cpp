@@ -1,4 +1,4 @@
-#include "ENGINE/collisions.hpp"
+#include "SIMPLESDL/collisions.hpp"
 
 void Collider::SetOffset(Vector _offset){ offset = _offset; }
 void Collider::SetSize(Vector _size){ size = _size; }
@@ -19,8 +19,8 @@ void Collider::Update(float deltaTime){
 /*------------------------------MAIN FUNCTIONS------------------------------*/
 
 void Collider::CalculateCollision(){
-    auto collidables = Game::GetCollidables();
+    /*auto collidables = Game::GetCollidables();
     for (int i = 0; i < collidables.size(); i++){
         auto collidable = collidables[i];
-    }
+    }*/
 }

@@ -1,4 +1,4 @@
-#include "ENGINE/camera.hpp"
+#include "SIMPLESDL/camera.hpp"
 
 /*------------------------------GAME PROCESSES------------------------------*/
 

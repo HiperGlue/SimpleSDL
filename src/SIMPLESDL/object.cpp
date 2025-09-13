@@ -1,5 +1,5 @@
-#include "ENGINE/object.hpp"
-#include "ENGINE/engine.hpp"
+#include "SIMPLESDL/object.hpp"
+#include "SIMPLESDL/engine.hpp"
 
 Vector::Vector(float _x, float _y){
     x = _x;
