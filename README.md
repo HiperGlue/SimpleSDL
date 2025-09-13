@@ -4,8 +4,10 @@
 
 ## What is this?
 
-This is a basic **2D game engine** developed with **C++** & **SDL**. It was made with the sole porpuse of learning the C++ language and to
-avoid me the need of using a commercial one for my simple games.
+This is a basic **2D game engine** developed with **C++ & SDL**. It was made with the sole porpuse of learning the C++ language and to
+avoid me the need of using a commercial one for my simple games.\
+
+This project focuses on avoid OOP and prefer composition while simplifying the structure of the engine.
 
 ## How to use
 
