@@ -1,5 +1,7 @@
 .vscode/
 
+assets/
+
 build/
 
 cmake/
