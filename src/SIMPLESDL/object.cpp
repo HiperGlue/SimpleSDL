@@ -4,7 +4,7 @@
 Vector::Vector(float _x, float _y){
     x = _x;
     y = _y;
-    magnitude = sqrt(x * x + y * y);
+    magnitude = SDL_sqrtf(x * x + y * y);
 }
 
 Vector Vector::Normalize(){ return Vector(x / magnitude, y / magnitude); }

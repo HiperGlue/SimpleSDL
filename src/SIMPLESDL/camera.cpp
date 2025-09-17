@@ -29,7 +29,7 @@ void Camera::Render(){
             textureColor.red, textureColor.green, textureColor.blue
         );
 
-        SDL_RendererFlip renderFlip = (SDL_RendererFlip)(objectSprite->GetFlipX() | (objectSprite->GetFlipY() * 2));
+        SDL_FlipMode renderFlip = SDL_FLIP_NONE;
         
         Vector renderPosition = Vector(
             centeredPosition.x + renderSizeHalf.x - transform->GetPosition().x,
@@ -38,7 +38,7 @@ void Camera::Render(){
         float renderAngle = objectTransform->GetAngle() + transform->GetAngle();
 
         SDL_FRect renderRect = { renderPosition.x, renderPosition.y, objectTransform->GetSize().x, objectTransform->GetSize().y };
-        SDL_RenderCopyExF(targetRenderer, renderTexture, NULL, &renderRect, renderAngle, NULL, renderFlip);
+        SDL_RenderTextureRotated(targetRenderer, renderTexture, NULL, &renderRect, renderAngle, NULL, renderFlip);
     }
 }
 

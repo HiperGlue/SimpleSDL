@@ -3,8 +3,8 @@
 #include <memory>
 #include <vector>
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
+#include "SDL3/SDL.h"
+#include "SDL3_image/SDL_image.h"
 
 #include "object.hpp"
 

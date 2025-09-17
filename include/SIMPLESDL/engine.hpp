@@ -4,12 +4,14 @@
 #include <vector>
 #include <iostream>
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
+#include "SDL3/SDL.h"
+#include "SDL3_image/SDL_image.h"
 
 #include "camera.hpp"
 #include "collisions.hpp"
 #include "object.hpp"
+
+class Collider;
 
 class Game{
     private:
@@ -27,8 +29,8 @@ class Game{
         std::vector<std::shared_ptr<Object>> updatables;
         std::vector<std::shared_ptr<Collider>> collidables;
 
-        std::vector<SDL_Keycode> keyPoolDown;
-        std::vector<SDL_Keycode> keyPoolUp;
+        std::vector<SDL_Keycode> keyPoolDown; //edit to make it a map
+        std::vector<SDL_Keycode> keyPoolUp; //edit to make it a map
         
         /*------------------------------GAME PROCESSES------------------------------*/
         
@@ -47,7 +49,7 @@ class Game{
         bool S_GetKeyHold(SDL_Keycode key);
         bool S_GetKeyUp(SDL_Keycode key);
         
-        SDL_Texture* S_LoadTexture(const char* file);
+        SDL_Texture* S_LoadTexture(const char* file, SDL_ScaleMode scaleMode);
         
         void S_AddToUpdatables(std::shared_ptr<Object> updatable);
         void S_AddToCollidables(std::shared_ptr<Collider> collidable);
@@ -64,7 +66,7 @@ class Game{
         Game(const Game&) = delete;
         Game& operator=(const Game&) = delete;
         
-        static void Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags = 0, Uint32 renderFlags = 0);
+        static void Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags = 0, Uint32 initFlags = 0);
         static void Events();
         static void Update();
         static void Render();
@@ -76,7 +78,7 @@ class Game{
         static bool GetKeyHold(SDL_Keycode key);
         static bool GetKeyUp(SDL_Keycode key);
 
-        static SDL_Texture* LoadTexture(const char* file);
+        static SDL_Texture* LoadTexture(const char* file, SDL_ScaleMode scaleMode = SDL_SCALEMODE_NEAREST);
 
         static void AddToUpdatables(std::shared_ptr<Object> updatable);
         static void AddToCollidables(std::shared_ptr<Collider> collidable);

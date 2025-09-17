@@ -13,13 +13,14 @@ Game& Game::Get(){
     return *instance;
 }
 
-void Game::S_Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags, Uint32 renderFlags){
+void Game::S_Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags, Uint32 initFlags){
     std::cout << "Setting everything up..." << std::endl;
 
     ISRUNNING = true;
-    SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_Init(initFlags);
 
-    window = SDL_CreateWindow(title, posX, posY, width, height, windowFlags);
+    window = SDL_CreateWindow(title, width, height, windowFlags);
+    SDL_SetWindowPosition(window, posX, posY);
     if (!window){
         std::cerr << "Error while creating main window!!";
         std::terminate();
@@ -27,7 +28,7 @@ void Game::S_Init(const char* title, const char* iconFile, int posX, int posY, i
 
     if (iconFile[0] != '\0') SDL_SetWindowIcon(window, IMG_Load(iconFile));
 
-    renderer = SDL_CreateRenderer(window, -1, renderFlags);
+    renderer = SDL_CreateRenderer(window, NULL);
     if (!renderer){
         std::cerr << "Error while creating renderer!!";
         std::terminate();
@@ -44,16 +45,16 @@ void Game::S_Events(){
     SDL_Event event;
     while(SDL_PollEvent(&event)){
         switch (event.type){
-            case SDL_QUIT:
+            case SDL_EVENT_QUIT:
                 ISRUNNING = false;
                 break;
 
-            case SDL_KEYDOWN:
-                keyPoolDown.push_back(event.key.keysym.sym);
+            case SDL_EVENT_KEY_DOWN:
+                keyPoolDown.push_back(event.key.key);
                 break;
 
-            case SDL_KEYUP:
-                keyPoolUp.push_back(event.key.keysym.sym);
+            case SDL_EVENT_KEY_UP:
+                keyPoolUp.push_back(event.key.key);
                 break;
             
             default:
@@ -100,7 +101,7 @@ bool Game::S_GetKeyDown(SDL_Keycode key){
 }
 
 bool Game::S_GetKeyHold(SDL_Keycode key){
-    SDL_Scancode scanCode = SDL_GetScancodeFromKey(key);
+    SDL_Scancode scanCode = SDL_GetScancodeFromKey(key, NULL);
     return SDL_GetKeyboardState(NULL)[scanCode];
 }
 
@@ -112,10 +113,11 @@ bool Game::S_GetKeyUp(SDL_Keycode key){
     return false;
 }
 
-SDL_Texture* Game::S_LoadTexture(const char* file){
+SDL_Texture* Game::S_LoadTexture(const char* file, SDL_ScaleMode scaleMode){
     SDL_Surface* tmpSurface = IMG_Load(file);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, tmpSurface);
-    SDL_FreeSurface(tmpSurface);
+    SDL_SetTextureScaleMode(texture, scaleMode);
+    SDL_DestroySurface(tmpSurface);
 
     return texture;
 }
@@ -144,13 +146,13 @@ float Game::GetDeltaTime(){ return Get().deltaTime; }
 SDL_Renderer* Game::GetRenderer(){ return Get().renderer; }
 SDL_Window* Game::GetWindow(){ return Get().window; }
 
-void Game::Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags, Uint32 renderFlags){
+void Game::Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags, Uint32 initFlags){
     if (!instance){
         instance = new Game();
         std::cout << "Initialization of game done correctly!" << std::endl;
     }
      
-    Get().S_Init(title, iconFile, posX, posY, width, height, windowFlags, renderFlags); 
+    Get().S_Init(title, iconFile, posX, posY, width, height, windowFlags, initFlags); 
 }
 void Game::Events(){ Get().S_Events(); }
 void Game::Update(){ Get().S_Update(); }
@@ -159,9 +161,9 @@ void Game::Clear(){ Get().S_Clear(); }
 bool Game::GetKeyDown(SDL_Keycode key){ return Get().S_GetKeyDown(key); }
 bool Game::GetKeyHold(SDL_Keycode key){ return Get().S_GetKeyHold(key); }
 bool Game::GetKeyUp(SDL_Keycode key){ return Get().S_GetKeyUp(key); }
-SDL_Texture* Game::LoadTexture(const char* file){ return Get().S_LoadTexture(file); }
+SDL_Texture* Game::LoadTexture(const char* file, SDL_ScaleMode scaleMode){ return Get().S_LoadTexture(file, scaleMode); }
 void Game::AddToUpdatables(std::shared_ptr<Object> updatable) { Get().S_AddToUpdatables(updatable); }
 void Game::AddToCollidables(std::shared_ptr<Collider> collidable) { Get().S_AddToCollidables(collidable); }
 void Game::AddToRenderizables(std::shared_ptr<Sprite> renderizable) { Get().S_AddToRenderizables(renderizable); }
-const std::vector<std::shared_ptr<Collider>>& Game::GetCollidables() { Get().collidables; }
+const std::vector<std::shared_ptr<Collider>>& Game::GetCollidables() { return Get().collidables; }
 void Game::ClearObjects(){ Get().ClearObjects(); }
