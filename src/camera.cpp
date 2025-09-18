@@ -1,4 +1,5 @@
-#include "SIMPLESDL/camera.hpp"
+#include "camera.hpp"
+#include <iostream>
 
 /*------------------------------GAME PROCESSES------------------------------*/
 
@@ -18,7 +19,7 @@ void Camera::Render(){
 
         Vector centeredPosition = Vector(
             objectTransform->GetPosition().x - objectTransform->GetSize().x * .5f,
-            objectTransform->GetPosition().y - objectTransform->GetSize().y * .5f
+            -objectTransform->GetPosition().y - objectTransform->GetSize().y * .5f
         );
 
         Color textureColor = objectSprite->GetColor();
@@ -29,7 +30,7 @@ void Camera::Render(){
             textureColor.red, textureColor.green, textureColor.blue
         );
 
-        SDL_FlipMode renderFlip = SDL_FLIP_NONE;
+        SDL_FlipMode renderFlip = (SDL_FlipMode)(objectSprite->GetFlipX() | (objectSprite->GetFlipY() * 2));
         
         Vector renderPosition = Vector(
             centeredPosition.x + renderSizeHalf.x - transform->GetPosition().x,

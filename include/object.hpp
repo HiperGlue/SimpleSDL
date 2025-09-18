@@ -50,14 +50,14 @@ class Sprite{
         SDL_Texture* texture;
         Color color;
 
-        bool flipX;
-        bool flipY;
+        bool flipX = false;
+        bool flipY = false;
 
-        bool mirrorX;
-        bool mirrorY;
+        bool mirrorX = false;
+        bool mirrorY = false;
     public:
         std::shared_ptr<Transform> transform;
-        void SetTexture(const char* imgFile);
+        void SetTexture(const char* imgFile, SDL_ScaleMode scaleMode = SDL_SCALEMODE_NEAREST);
         void SetColor(SDL_Color _color);
         void SetFlipX(bool _flipX);
         void SetFlipY(bool _flipY);

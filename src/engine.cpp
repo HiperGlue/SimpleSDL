@@ -1,4 +1,4 @@
-#include "SIMPLESDL/engine.hpp"
+#include "engine.hpp"
 
 Game* Game::instance = nullptr;
 
@@ -6,7 +6,7 @@ Game* Game::instance = nullptr;
 
 Game& Game::Get(){
     if (instance == nullptr) {
-        std::cerr << "Error! Uso de una instancia no definida" << std::endl;
+        SDL_LogError(1, "Error! Use of undefined instance of Game!!");
         std::terminate();
     }
 
@@ -14,15 +14,18 @@ Game& Game::Get(){
 }
 
 void Game::S_Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags, Uint32 initFlags){
-    std::cout << "Setting everything up..." << std::endl;
+    SDL_Log("Setting everything up...");
 
     ISRUNNING = true;
-    SDL_Init(initFlags);
+    if (!SDL_Init(initFlags)){
+        SDL_LogError(1, "Error! Failed initializing SDL systems!!");
+        std::terminate();
+    }
 
     window = SDL_CreateWindow(title, width, height, windowFlags);
     SDL_SetWindowPosition(window, posX, posY);
     if (!window){
-        std::cerr << "Error while creating main window!!";
+        SDL_LogError(1, "Error! Failed creating main window!!");
         std::terminate();
     }
 
@@ -30,7 +33,7 @@ void Game::S_Init(const char* title, const char* iconFile, int posX, int posY, i
 
     renderer = SDL_CreateRenderer(window, NULL);
     if (!renderer){
-        std::cerr << "Error while creating renderer!!";
+        SDL_LogError(1, "Error! Failed creating main renderer!!");
         std::terminate();
     }
 
@@ -149,7 +152,6 @@ SDL_Window* Game::GetWindow(){ return Get().window; }
 void Game::Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags, Uint32 initFlags){
     if (!instance){
         instance = new Game();
-        std::cout << "Initialization of game done correctly!" << std::endl;
     }
      
     Get().S_Init(title, iconFile, posX, posY, width, height, windowFlags, initFlags); 

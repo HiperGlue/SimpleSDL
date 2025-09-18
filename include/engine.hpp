@@ -2,16 +2,10 @@
 
 #include <memory>
 #include <vector>
-#include <iostream>
-
-#include "SDL3/SDL.h"
-#include "SDL3_image/SDL_image.h"
 
 #include "camera.hpp"
 #include "collisions.hpp"
 #include "object.hpp"
-
-class Collider;
 
 class Game{
     private:

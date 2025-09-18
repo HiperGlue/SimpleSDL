@@ -1,14 +1,7 @@
 .vscode/
 
-assets/
-
 build/
 
 cmake/
-
-src/GAME
-include/GAME
-
-CMakeLists-local.txt
 
 .gitattributes

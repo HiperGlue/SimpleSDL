@@ -1,4 +1,5 @@
-#include "SIMPLESDL/collisions.hpp"
+#include "engine.hpp"
+#include "collisions.hpp"
 
 void Collider::SetOffset(Vector _offset){ offset = _offset; }
 void Collider::SetSize(Vector _size){ size = _size; }
