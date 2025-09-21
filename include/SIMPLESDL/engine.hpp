@@ -3,9 +3,9 @@
 #include <memory>
 #include <vector>
 
-#include "camera.hpp"
-#include "collisions.hpp"
-#include "object.hpp"
+#include "SIMPLESDL/camera.hpp"
+#include "SIMPLESDL/collisions.hpp"
+#include "SIMPLESDL/object.hpp"
 
 /*SINGLETON
 class Game{

@@ -1,4 +1,4 @@
-#include "camera.hpp"
+#include "SIMPLESDL/camera.hpp"
 #include <iostream>
 
 /*------------------------------GAME PROCESSES------------------------------*/

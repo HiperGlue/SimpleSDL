@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "object.hpp"
+#include "SIMPLESDL/object.hpp"
 
 class Collider{
     private:

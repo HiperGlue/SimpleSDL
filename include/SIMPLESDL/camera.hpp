@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-#include "object.hpp"
+#include "SIMPLESDL/object.hpp"
 
 class Camera{
     private:

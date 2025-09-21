@@ -6,8 +6,8 @@ find_package(SDL3_image REQUIRED)
 
 include_directories(include)
 
-file(GLOB SIMPLESDL_SOURCES "src/*.cpp")
-file(GLOB SIMPLESDL_HEADERS "include/*.hpp")
+file(GLOB SIMPLESDL_SOURCES "src/SIMPLESDL/*.cpp")
+file(GLOB SIMPLESDL_HEADERS "include/SIMPLESDL/*.hpp")
 
 add_library(SIMPLESDL STATIC ${SIMPLESDL_SOURCES} ${SIMPLESDL_HEADERS})
 
