@@ -13,15 +13,11 @@ Collider::Collider(std::shared_ptr<Transform> _transform){
     transform = _transform;
 }
 
-void Collider::Update(float deltaTime){
-    
-}
-
 /*------------------------------MAIN FUNCTIONS------------------------------*/
 
 void Collider::CalculateCollision(){
-    /*auto collidables = Game::GetCollidables();
+    auto collidables = SIMPLESDL::GetCollidables();
     for (int i = 0; i < collidables.size(); i++){
         auto collidable = collidables[i];
-    }*/
+    }
 }

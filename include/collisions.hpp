@@ -19,7 +19,6 @@ class Collider{
         /*------------------------------GAME PROCESSES------------------------------*/
 
         Collider(std::shared_ptr<Transform> _transform);
-        void Update(float deltaTime);
 
         /*------------------------------MAIN FUNCTIONS------------------------------*/
 

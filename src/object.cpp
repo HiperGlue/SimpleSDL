@@ -38,7 +38,7 @@ Vector Transform::GetSize(){ return size; }
 
 Sprite::Sprite(std::shared_ptr<Transform> _transform){ transform = _transform; }
 
-void Sprite::SetTexture(const char* file, SDL_ScaleMode scaleMode){ texture = Game::LoadTexture(file, scaleMode); }
+void Sprite::SetTexture(const char* file, SDL_ScaleMode scaleMode){ texture = SIMPLESDL::LoadTexture(file, scaleMode); }
 void Sprite::SetFlipX(bool _flipX) { flipX = _flipX; }
 void Sprite::SetFlipY(bool _flipY) { flipY = _flipY; }
 void Sprite::SetMirrorX(bool _mirrorX) { mirrorX = _mirrorX; }
