@@ -1,3 +1,5 @@
+#include <map>
+
 #include "engine.hpp"
 
 /*SINGLETON
@@ -190,8 +192,8 @@ namespace SIMPLESDL{
         std::vector<std::shared_ptr<Object>> updatables;
         std::vector<std::shared_ptr<Collider>> collidables;
 
-        std::vector<SDL_Keycode> keyPoolDown; //edit to make it a map
-        std::vector<SDL_Keycode> keyPoolUp; //edit to make it a map
+        std::map<SDL_Keycode, SDL_Keycode> keyPoolDown;
+        std::map<SDL_Keycode, SDL_Keycode> keyPoolUp;
     }
 
     /*------------------------------GAME PROCESSES------------------------------*/
@@ -236,11 +238,11 @@ namespace SIMPLESDL{
                     break;
 
                 case SDL_EVENT_KEY_DOWN:
-                    keyPoolDown.push_back(event.key.key);
+                    keyPoolDown[event.key.key] = event.key.key;
                     break;
 
                 case SDL_EVENT_KEY_UP:
-                    keyPoolUp.push_back(event.key.key);
+                    keyPoolUp[event.key.key] = event.key.key;
                     break;
                 
                 default:
