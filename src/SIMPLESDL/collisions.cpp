@@ -15,9 +15,9 @@ Collider::Collider(std::shared_ptr<Transform> _transform){
 
 /*------------------------------MAIN FUNCTIONS------------------------------*/
 
-void Collider::CalculateCollision(){
+/*void Collider::CalculateCollision(){
     auto collidables = SIMPLESDL::GetCollidables();
     for (int i = 0; i < collidables.size(); i++){
         auto collidable = collidables[i];
     }
-}
+}*/

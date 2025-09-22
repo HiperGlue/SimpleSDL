@@ -1,9 +1,9 @@
+#include "SIMPLESDL/engine.hpp"
 #include "SIMPLESDL/camera.hpp"
-#include <iostream>
 
 /*------------------------------GAME PROCESSES------------------------------*/
 
-Camera::Camera(SDL_Renderer* _targetRenderer){
+/*Camera::Camera(SDL_Renderer* _targetRenderer){
     transform = std::make_shared<Transform>();
     targetRenderer = _targetRenderer;
 
@@ -15,7 +15,7 @@ void Camera::Render(){
 
     for (int i = 0; i < renderizables.size(); i++){
         std::shared_ptr<Sprite> objectSprite = renderizables[i];
-        std::shared_ptr<Transform> objectTransform = objectSprite->transform;
+        std::shared_ptr<Transform> objectTransform = SIMPLESDL::GetComponent<Transform>(objectSprite->GetEntityID());
 
         Vector centeredPosition = Vector(
             objectTransform->GetPosition().x - objectTransform->GetSize().x * .5f,
@@ -43,7 +43,7 @@ void Camera::Render(){
     }
 }
 
-/*------------------------------MAIN FUNCTIONS------------------------------*/
+------------------------------MAIN FUNCTIONS------------------------------
 
 void Camera::SetRenderTarget(SDL_Renderer* _targetRenderer){ targetRenderer = _targetRenderer; }
 
@@ -56,8 +56,8 @@ void Camera::SetBackgroundColor(Color _backgroundColor){
     ); 
 }
 
-void Camera::AddToRenderizables(std::shared_ptr<Sprite> renderizable){
+/*void Camera::AddToRenderizables(std::shared_ptr<Sprite> renderizable){
     renderizables.push_back(renderizable);
 }
 
-void Camera::ClearRenderizables(){ renderizables.clear(); }
+void Camera::ClearRenderizables(){ renderizables.clear(); }*/

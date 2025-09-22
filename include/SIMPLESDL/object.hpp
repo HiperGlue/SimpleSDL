@@ -5,6 +5,24 @@
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 
+class Entity{
+    public:
+        int ID;
+        int componentCount;
+        Entity(int _ID);
+};
+
+class Component{
+    public:
+        int ID;
+        int entityID;
+        Component(int _ID, int _entityID);
+
+        int GetEntityID();
+
+        virtual void Update() = 0;
+};
+
 struct Vector{
     float x;
     float y;
@@ -30,7 +48,7 @@ struct Color{
     Color(Uint8 _red = 255, Uint8 _green = 255, Uint8 _blue = 255, Uint8 _alpha = 255);
 };
 
-class Transform{
+class Transform : public Component{
     private:
         Vector position;
         float angle;
@@ -43,9 +61,13 @@ class Transform{
         Vector GetPosition();
         float GetAngle();
         Vector GetSize();
+
+        void Update() override {};
+
+        Transform(int ID, int entityID);
 };
 
-class Sprite{
+class Sprite : public Component{
     private:
         SDL_Texture* texture;
         Color color;
@@ -56,7 +78,6 @@ class Sprite{
         bool mirrorX = false;
         bool mirrorY = false;
     public:
-        std::shared_ptr<Transform> transform;
         void SetTexture(const char* imgFile, SDL_ScaleMode scaleMode = SDL_SCALEMODE_NEAREST);
         void SetColor(SDL_Color _color);
         void SetFlipX(bool _flipX);
@@ -73,10 +94,12 @@ class Sprite{
 
         /*------------------------------GAME PROCESSES------------------------------*/
 
-        Sprite(std::shared_ptr<Transform> _transform);
+        Sprite(int ID, int entityID);
+
+        void Update() override {};
 };
 
-class Object{
+/*class Object{
     public:
         virtual void Update(float deltaTime) = 0;
-};
+};*/
