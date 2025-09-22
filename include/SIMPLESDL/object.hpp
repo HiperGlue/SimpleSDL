@@ -8,7 +8,7 @@
 class Entity{
     public:
         int ID;
-        int componentCount;
+        int componentCount = 0;
         Entity(int _ID);
 };
 

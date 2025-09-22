@@ -121,8 +121,8 @@ class SIMPLESDL{
             for (int i = 0; i < Get().components.size(); i++){
                 if (Get().components[i]->entityID != entityID) continue;
                 
-                std::shared_ptr<T> component = std::dynamic_pointer_cast<T>(Get().components[i]);
-                if (component != nullptr) return component;
+                T* componentCast = dynamic_cast<T*>(Get().components[i].get());
+                if (componentCast != nullptr) return std::static_pointer_cast<T>(Get().components[i]);
             }
 
             return nullptr;
