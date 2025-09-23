@@ -107,6 +107,12 @@ class SIMPLESDL{
         
         static int CreateNewEntity();
         template <class T> static void AddComponent(int entityID){
+            static_assert(
+                !std::is_same<Component, T>::value &&
+                std::is_base_of<Component, T>::value,
+                "Error! T must be derived from Component"
+            );
+
             std::unique_ptr<Entity> entity = std::move(Get().entities[entityID]);
 
             int componentID = entity->componentCount;
@@ -118,11 +124,18 @@ class SIMPLESDL{
             Get().entities[entityID] = std::move(entity);
         }
         template <class T> static std::shared_ptr<T> GetComponent(int entityID){
+            static_assert(
+                !std::is_same<Component, T>::value &&
+                std::is_base_of<Component, T>::value,
+                "Error! T must be derived from Component"
+            );
+
             for (int i = 0; i < Get().components.size(); i++){
-                if (Get().components[i]->entityID != entityID) continue;
+                std::shared_ptr<Component> component = Get().components[i];
+                if (component->entityID != entityID) continue;
                 
-                T* componentCast = dynamic_cast<T*>(Get().components[i].get());
-                if (componentCast != nullptr) return std::static_pointer_cast<T>(Get().components[i]);
+                std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component);
+                if (castedComponent) return castedComponent;
             }
 
             return nullptr;
