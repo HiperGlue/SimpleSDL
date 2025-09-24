@@ -2,15 +2,36 @@
 
 #include <memory>
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
+
+class Entity{
+    public:
+        int ID;
+        int componentCount;
+        Entity(int _ID);
+};
+
+class Component{
+    protected:
+        int ID;
+        int entityID;
+    public:
+        Component(int _ID, int _entityID);
+        virtual ~Component() = 0;
+
+        int GetEntityID();
+        int GetComponentID();
+
+        virtual void Update();
+};
 
 struct Vector{
     float x;
     float y;
     float magnitude;
 
-    Vector(float _x = 0.0f, float _y = 0.0f);
+    Vector(float _x = 0, float _y = 0);
 
     Vector Normalize();
 
@@ -30,7 +51,7 @@ struct Color{
     Color(Uint8 _red = 255, Uint8 _green = 255, Uint8 _blue = 255, Uint8 _alpha = 255);
 };
 
-class Transform{
+class Transform : public Component{
     private:
         Vector position;
         float angle;
@@ -43,9 +64,13 @@ class Transform{
         Vector GetPosition();
         float GetAngle();
         Vector GetSize();
+
+        void Update() override {};
+
+        Transform(int ID, int entityID);
 };
 
-class Sprite{
+class Sprite : public Component{
     private:
         SDL_Texture* texture;
         Color color;
@@ -56,8 +81,7 @@ class Sprite{
         bool mirrorX;
         bool mirrorY;
     public:
-        std::shared_ptr<Transform> transform;
-        void SetTexture(const char* imgFile);
+        void SetTexture(const char* imgFile, SDL_ScaleMode scaleMode = SDL_SCALEMODE_NEAREST);
         void SetColor(SDL_Color _color);
         void SetFlipX(bool _flipX);
         void SetFlipY(bool _flipY);
@@ -73,10 +97,7 @@ class Sprite{
 
         /*------------------------------GAME PROCESSES------------------------------*/
 
-        Sprite(std::shared_ptr<Transform> _transform);
-};
+        Sprite(int ID, int entityID);
 
-class Object{
-    public:
-        virtual void Update(float deltaTime) = 0;
+        void Update() override {};
 };

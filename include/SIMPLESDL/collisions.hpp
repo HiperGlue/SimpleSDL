@@ -1,11 +1,11 @@
 #pragma once
 
-#include <vector>
+#include <memory>
 
-#include "object.hpp"
+#include "SIMPLESDL/object.hpp"
 
 class Collider{
-    protected:
+    private:
         std::shared_ptr<Transform> transform;
         Vector offset;
         Vector size;
@@ -19,7 +19,6 @@ class Collider{
         /*------------------------------GAME PROCESSES------------------------------*/
 
         Collider(std::shared_ptr<Transform> _transform);
-        void Update(float deltaTime);
 
         /*------------------------------MAIN FUNCTIONS------------------------------*/
 

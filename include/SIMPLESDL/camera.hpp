@@ -3,14 +3,12 @@
 #include <memory>
 #include <vector>
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
 
-#include "object.hpp"
+#include "SIMPLESDL/object.hpp"
 
-class Camera{
-    private:
-        std::vector<std::shared_ptr<Sprite>> renderizableObjects;
+class Camera : public Component{
     protected:
         Color backgroundColor;
         SDL_Renderer* targetRenderer;
@@ -21,13 +19,11 @@ class Camera{
 
         /*------------------------------GAME PROCESSES------------------------------*/
         
-        Camera(SDL_Renderer* _targetRenderer);
+        Camera(int ID, int entityID);
 
         void Render();
 
         /*------------------------------MAIN FUNCTIONS------------------------------*/
 
         void SetBackgroundColor(Color _backgroundColor);
-        void AddToRenderizables(std::shared_ptr<Sprite> renderizable);
-        void ClearRenderizables();
 };
