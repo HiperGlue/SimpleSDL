@@ -17,24 +17,22 @@ class SIMPLESDL{
     private:
         static SIMPLESDL* instance;
 
+        SDL_Window* window;
+        SDL_Renderer* renderer;
+
         bool ISRUNNING;
         Uint32 lastTicks;
         float deltaTime;
 
-        SDL_Window* window;
-        SDL_Renderer* renderer;
+        int entityCounter;
 
-        std::unique_ptr<Camera> mainCamera;
-        
-        int entityCount;
         std::map<int, std::unique_ptr<Entity>> entities;
         std::vector<std::shared_ptr<Component>> components;
 
-        //std::vector<std::shared_ptr<Object>> updatables;
-        //std::vector<std::shared_ptr<Collider>> collidables;
-
         std::map<SDL_Keycode, SDL_Keycode> keyPoolDown;
         std::map<SDL_Keycode, SDL_Keycode> keyPoolUp;
+
+        std::shared_ptr<Camera> mainCamera;
 
         /*------------------------------GAME PROCESSES------------------------------*/
         
@@ -42,15 +40,10 @@ class SIMPLESDL{
         static SIMPLESDL& Get();
 
         void S_Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags, Uint32 renderFlags);
-        //void S_Events();
-        //void S_Update();
-        //void S_Render();
-        //void S_Clear();
-
-        bool S_IsRunning();
-        float S_GetDeltaTime();
-        SDL_Renderer* S_GetRenderer();
-        SDL_Window* S_GetWindow();
+        void S_Events();
+        void S_Update();
+        void S_Render();
+        void S_Clear();
 
         bool S_GetKeyDown(SDL_Keycode key);
         bool S_GetKeyHold(SDL_Keycode key);
@@ -59,45 +52,27 @@ class SIMPLESDL{
         SDL_Texture* S_LoadTexture(const char* file, SDL_ScaleMode scaleMode);
         
         int S_CreateNewEntity();
-        
-        /*template <class T> void S_AddComponent(int entityID){ //Susceptible a un montón de errores de tipo (tal vez?) !!! Lidiar con eso
-            std::unique_ptr<Entity> entity = std::move(entities[entityID]);
 
-            int componentID = entity->componentCount;
-            entity->componentCount++;
+        std::shared_ptr<Camera> S_MakeCamera(int entityID, SDL_Renderer* targetRenderer, Vector size);
+        std::shared_ptr<Sprite> S_MakeSprite(int entityID, const char* file, Vector size);
 
-            std::shared_ptr<T> component = std::make_shared<T>(componentID, entityID);
-            components.push_back(component);
-
-            entities[entityID] = std::move(entity);
-        }
-
-        
-        template <class T> std::shared_ptr<T> S_GetComponent(int entityID){ //Susceptible a un montón de errores de tipo (tal vez?) !!! Lidiar con eso
-            for (int i = 0; i < components.size(); i++){
-                if (components[i]->entityID != entityID) continue;
-                
-                std::shared_ptr<T> component = std::dynamic_pointer_cast<T>(components[i]);
-                if (component != nullptr) return component;
-            }
-
-            return nullptr;
-        }*/
+        void S_ClearObjects();
     public:
         /*------------------------------GAME PROCESSES------------------------------*/
 
         static void Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags = 0, Uint32 renderFlags = 0);
-        //void Events();
-        //void Update();
-        //void Render();
-        //void Clear();
+        static void Events();
+        static void Update();
+        static void Render();
+        static void Clear();
 
         /*------------------------------MAIN FUNCTIONS------------------------------*/
 
-        static bool IsRunning();
-        static float GetDeltaTime();
         static SDL_Renderer* GetRenderer();
         static SDL_Window* GetWindow();
+        static bool IsRunning();
+        static float DeltaTime();
+        static int GetEntityCount();
 
         static bool GetKeyDown(SDL_Keycode key);
         static bool GetKeyHold(SDL_Keycode key);
@@ -106,11 +81,11 @@ class SIMPLESDL{
         static SDL_Texture* LoadTexture(const char* file, SDL_ScaleMode scaleMode);
         
         static int CreateNewEntity();
-        template <class T> static void AddComponent(int entityID){
+        template <class T> static std::shared_ptr<T> AddComponent(int entityID){
             static_assert(
                 !std::is_same<Component, T>::value &&
                 std::is_base_of<Component, T>::value,
-                "Error! T must be derived from Component"
+                "Error! Type must be derived from Component"
             );
 
             std::unique_ptr<Entity> entity = std::move(Get().entities[entityID]);
@@ -122,17 +97,19 @@ class SIMPLESDL{
             Get().components.push_back(component);
 
             Get().entities[entityID] = std::move(entity);
+
+            return component;
         }
         template <class T> static std::shared_ptr<T> GetComponent(int entityID){
             static_assert(
                 !std::is_same<Component, T>::value &&
                 std::is_base_of<Component, T>::value,
-                "Error! T must be derived from Component"
+                "Error! Type must be derived from Component"
             );
 
             for (int i = 0; i < Get().components.size(); i++){
                 std::shared_ptr<Component> component = Get().components[i];
-                if (component->entityID != entityID) continue;
+                if (component->GetEntityID() != entityID) continue;
                 
                 std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component);
                 if (castedComponent) return castedComponent;
@@ -140,12 +117,26 @@ class SIMPLESDL{
 
             return nullptr;
         }
+        template <class T> static std::vector<std::shared_ptr<T>> GetComponents(int entityID){
+            static_assert(
+                !std::is_same<Component, T>::value &&
+                std::is_base_of<Component, T>::value,
+                "Error! Type must be derived from Component"
+            );
 
-        /*void AddToUpdatables(std::shared_ptr<Object> updatable);
-        void AddToCollidables(std::shared_ptr<Collider> collidable);
-        void AddToRenderizables(std::shared_ptr<Sprite> renderizable);
+            std::vector<std::shared_ptr<T>> castedComponents;
 
-        const std::vector<std::shared_ptr<Collider>>& GetCollidables();
+            for (int i = 0; i < Get().components.size(); i++){
+                std::shared_ptr<Component> component = Get().components[i];
+                if (component->GetEntityID() != entityID) continue;
+                
+                std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component);
+                if (castedComponent) castedComponents.push_back(castedComponent);
+            }
 
-        void ClearObjects();*/
+            return castedComponents;
+        }
+
+        static std::shared_ptr<Camera> MakeCamera(int entityID, SDL_Renderer* targetRenderer, Vector size);
+        static std::shared_ptr<Sprite> MakeSprite(int entityID, const char* file, Vector size);
 };

@@ -8,9 +8,7 @@
 
 #include "SIMPLESDL/object.hpp"
 
-class Camera{
-    private:
-        std::vector<std::shared_ptr<Sprite>> renderizables;
+class Camera : public Component{
     protected:
         Color backgroundColor;
         SDL_Renderer* targetRenderer;
@@ -21,13 +19,11 @@ class Camera{
 
         /*------------------------------GAME PROCESSES------------------------------*/
         
-        Camera(SDL_Renderer* _targetRenderer);
+        Camera(int ID, int entityID);
 
         void Render();
 
         /*------------------------------MAIN FUNCTIONS------------------------------*/
 
         void SetBackgroundColor(Color _backgroundColor);
-        void AddToRenderizables(std::shared_ptr<Sprite> renderizable);
-        void ClearRenderizables();
 };

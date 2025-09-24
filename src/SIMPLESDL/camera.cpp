@@ -3,47 +3,47 @@
 
 /*------------------------------GAME PROCESSES------------------------------*/
 
-/*Camera::Camera(SDL_Renderer* _targetRenderer){
-    transform = std::make_shared<Transform>();
-    targetRenderer = _targetRenderer;
-
-    SDL_SetRenderDrawColor(targetRenderer, 255, 255, 255, 255);
+Camera::Camera(int ID, int entityID) : Component(ID, entityID){
+    transform = SIMPLESDL::GetComponent<Transform>(entityID);
 }
 
 void Camera::Render(){
     Vector renderSizeHalf = transform->GetSize() * .5f;
 
-    for (int i = 0; i < renderizables.size(); i++){
-        std::shared_ptr<Sprite> objectSprite = renderizables[i];
-        std::shared_ptr<Transform> objectTransform = SIMPLESDL::GetComponent<Transform>(objectSprite->GetEntityID());
+    for (int i = 0; i < SIMPLESDL::GetEntityCount(); i++){
+        std::vector<std::shared_ptr<Sprite>> entitySprites = SIMPLESDL::GetComponents<Sprite>(i);
 
-        Vector centeredPosition = Vector(
-            objectTransform->GetPosition().x - objectTransform->GetSize().x * .5f,
-            -objectTransform->GetPosition().y - objectTransform->GetSize().y * .5f
-        );
+        for (auto objectSprite : entitySprites){
+            std::shared_ptr<Transform> objectTransform = SIMPLESDL::GetComponent<Transform>(objectSprite->GetEntityID());
 
-        Color textureColor = objectSprite->GetColor();
-        SDL_Texture* renderTexture = objectSprite->GetTexture();
-        SDL_SetTextureColorMod
-        (
-            renderTexture, 
-            textureColor.red, textureColor.green, textureColor.blue
-        );
+            Vector centeredPosition = Vector(
+                objectTransform->GetPosition().x - objectTransform->GetSize().x * .5f,
+                -objectTransform->GetPosition().y - objectTransform->GetSize().y * .5f
+            );
 
-        SDL_FlipMode renderFlip = (SDL_FlipMode)(objectSprite->GetFlipX() | (objectSprite->GetFlipY() * 2));
-        
-        Vector renderPosition = Vector(
-            centeredPosition.x + renderSizeHalf.x - transform->GetPosition().x,
-            centeredPosition.y + renderSizeHalf.y + transform->GetPosition().y
-        );
-        float renderAngle = objectTransform->GetAngle() + transform->GetAngle();
+            Color textureColor = objectSprite->GetColor();
+            SDL_Texture* renderTexture = objectSprite->GetTexture();
+            SDL_SetTextureColorMod
+            (
+                renderTexture, 
+                textureColor.red, textureColor.green, textureColor.blue
+            );
 
-        SDL_FRect renderRect = { renderPosition.x, renderPosition.y, objectTransform->GetSize().x, objectTransform->GetSize().y };
-        SDL_RenderTextureRotated(targetRenderer, renderTexture, NULL, &renderRect, renderAngle, NULL, renderFlip);
+            SDL_FlipMode renderFlip = (SDL_FlipMode)(objectSprite->GetFlipX() | (objectSprite->GetFlipY() * 2));
+            
+            Vector renderPosition = Vector(
+                centeredPosition.x + renderSizeHalf.x - transform->GetPosition().x,
+                centeredPosition.y + renderSizeHalf.y + transform->GetPosition().y
+            );
+            float renderAngle = objectTransform->GetAngle() + transform->GetAngle();
+
+            SDL_FRect renderRect = { renderPosition.x, renderPosition.y, objectTransform->GetSize().x, objectTransform->GetSize().y };
+            SDL_RenderTextureRotated(targetRenderer, renderTexture, NULL, &renderRect, renderAngle, NULL, renderFlip);
+        }
     }
 }
 
-------------------------------MAIN FUNCTIONS------------------------------
+/*------------------------------MAIN FUNCTIONS------------------------------*/
 
 void Camera::SetRenderTarget(SDL_Renderer* _targetRenderer){ targetRenderer = _targetRenderer; }
 
@@ -56,8 +56,4 @@ void Camera::SetBackgroundColor(Color _backgroundColor){
     ); 
 }
 
-/*void Camera::AddToRenderizables(std::shared_ptr<Sprite> renderizable){
-    renderizables.push_back(renderizable);
-}
-
-void Camera::ClearRenderizables(){ renderizables.clear(); }*/
+//void Camera::ClearRenderizables(){ renderizables.clear(); }*/

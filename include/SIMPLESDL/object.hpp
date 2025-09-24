@@ -8,19 +8,22 @@
 class Entity{
     public:
         int ID;
-        int componentCount = 0;
+        int componentCount;
         Entity(int _ID);
 };
 
 class Component{
-    public:
+    protected:
         int ID;
         int entityID;
+    public:
         Component(int _ID, int _entityID);
+        virtual ~Component() = 0;
 
         int GetEntityID();
+        int GetComponentID();
 
-        virtual void Update() = 0;
+        virtual void Update();
 };
 
 struct Vector{
@@ -28,7 +31,7 @@ struct Vector{
     float y;
     float magnitude;
 
-    Vector(float _x = 0.0f, float _y = 0.0f);
+    Vector(float _x = 0, float _y = 0);
 
     Vector Normalize();
 
@@ -72,11 +75,11 @@ class Sprite : public Component{
         SDL_Texture* texture;
         Color color;
 
-        bool flipX = false;
-        bool flipY = false;
+        bool flipX;
+        bool flipY;
 
-        bool mirrorX = false;
-        bool mirrorY = false;
+        bool mirrorX;
+        bool mirrorY;
     public:
         void SetTexture(const char* imgFile, SDL_ScaleMode scaleMode = SDL_SCALEMODE_NEAREST);
         void SetColor(SDL_Color _color);
@@ -98,8 +101,3 @@ class Sprite : public Component{
 
         void Update() override {};
 };
-
-/*class Object{
-    public:
-        virtual void Update(float deltaTime) = 0;
-};*/
