@@ -42,8 +42,15 @@ void SIMPLESDL::S_Init(const char* title, const char* iconFile, int posX, int po
     }
 
     int mainCameraID = CreateNewEntity();
-    AddComponent<Transform>(mainCameraID);
-    mainCamera = MakeCamera(mainCameraID, renderer, Vector(width, height));
+    AddComponent<Transform>(mainCameraID)->SetSize(Vector(width, height));
+    mainCamera = AddComponent<Camera>(mainCameraID);
+    mainCamera->SetRenderTarget(renderer);
+}
+
+void SIMPLESDL::S_Start(){
+    for (auto component : components){
+        component->Start();
+    }
 }
 
 void SIMPLESDL::S_Events(){
@@ -135,25 +142,6 @@ int SIMPLESDL::S_CreateNewEntity(){
     return entityCounter - 1;
 }
 
-std::shared_ptr<Camera> SIMPLESDL::S_MakeCamera(int entityID, SDL_Renderer* targetRenderer, Vector size){
-    std::shared_ptr<Camera> camera = AddComponent<Camera>(entityID);
-    camera->transform = GetComponent<Transform>(entityID);
-
-    camera->SetRenderTarget(targetRenderer);
-    camera->transform->SetSize(size);
-
-    return camera;
-}
-
-std::shared_ptr<Sprite> SIMPLESDL::S_MakeSprite(int entityID, const char* file, Vector size){
-    std::shared_ptr<Sprite> sprite = AddComponent<Sprite>(entityID);
-
-    sprite->SetTexture(file);
-    GetComponent<Transform>(entityID)->SetSize(size);
-
-    return sprite;
-}
-
 /*------------------------------ACCESSERS------------------------------*/
 
 SDL_Renderer* SIMPLESDL::GetRenderer(){ return Get().renderer; }
@@ -169,6 +157,7 @@ void SIMPLESDL::Init(const char* title, const char* iconFile, int posX, int posY
 
     Get().S_Init(title, iconFile, posX, posY, width, height, windowFlags, initFlags); 
 }
+void SIMPLESDL::Start() { Get().S_Start(); }
 void SIMPLESDL::Events(){ Get().S_Events(); }
 void SIMPLESDL::Update(){ Get().S_Update(); }
 void SIMPLESDL::Render(){ Get().S_Render(); }
@@ -179,11 +168,3 @@ bool SIMPLESDL::GetKeyUp(SDL_Keycode key){ return Get().S_GetKeyUp(key); }
 SDL_Texture* SIMPLESDL::LoadTexture(const char* file, SDL_ScaleMode scaleMode){ return Get().S_LoadTexture(file, scaleMode); }
 
 int SIMPLESDL::CreateNewEntity(){ return Get().S_CreateNewEntity(); }
-
-std::shared_ptr<Camera> SIMPLESDL::MakeCamera(int entityID, SDL_Renderer* targetRenderer, Vector size){ 
-    return Get().S_MakeCamera(entityID, targetRenderer, size);
-}
-
-std::shared_ptr<Sprite> SIMPLESDL::MakeSprite(int entityID, const char* file, Vector size){ 
-    return Get().S_MakeSprite(entityID, file, size); 
-}

@@ -8,6 +8,7 @@ Entity::Entity(int _ID){ ID = _ID; }
 Component::Component(int _ID, int _entityID){ ID = _ID; entityID = _entityID; }
 int Component::GetEntityID(){ return entityID; }
 int Component::GetComponentID(){ return ID; }
+void Component::Start(){}
 void Component::Update(){}
 Component::~Component(){}
 
@@ -77,3 +78,8 @@ bool Sprite::GetFlipX() { return flipX; }
 bool Sprite::GetFlipY() { return flipY; }
 bool Sprite::GetMirrorX() { return mirrorX; }
 bool Sprite::GetMirrorY() { return mirrorY; }
+
+void Sprite::Start(){
+    
+}
+void Sprite::Update(){}

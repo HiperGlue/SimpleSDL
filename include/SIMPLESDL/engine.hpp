@@ -40,6 +40,7 @@ class SIMPLESDL{
         static SIMPLESDL& Get();
 
         void S_Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags, Uint32 renderFlags);
+        void S_Start();
         void S_Events();
         void S_Update();
         void S_Render();
@@ -53,14 +54,12 @@ class SIMPLESDL{
         
         int S_CreateNewEntity();
 
-        std::shared_ptr<Camera> S_MakeCamera(int entityID, SDL_Renderer* targetRenderer, Vector size);
-        std::shared_ptr<Sprite> S_MakeSprite(int entityID, const char* file, Vector size);
-
         void S_ClearObjects();
     public:
         /*------------------------------GAME PROCESSES------------------------------*/
 
         static void Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags = 0, Uint32 renderFlags = 0);
+        static void Start();
         static void Events();
         static void Update();
         static void Render();
@@ -90,8 +89,8 @@ class SIMPLESDL{
 
             std::unique_ptr<Entity> entity = std::move(Get().entities[entityID]);
 
-            int componentID = entity->componentCount;
-            entity->componentCount++;
+            int componentID = entity->componentCounter;
+            entity->componentCounter++;
 
             std::shared_ptr<T> component = std::make_shared<T>(componentID, entityID);
             Get().components.push_back(component);
@@ -136,7 +135,4 @@ class SIMPLESDL{
 
             return castedComponents;
         }
-
-        static std::shared_ptr<Camera> MakeCamera(int entityID, SDL_Renderer* targetRenderer, Vector size);
-        static std::shared_ptr<Sprite> MakeSprite(int entityID, const char* file, Vector size);
 };

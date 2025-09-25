@@ -3,8 +3,11 @@
 
 /*------------------------------GAME PROCESSES------------------------------*/
 
-Camera::Camera(int ID, int entityID) : Component(ID, entityID){
+Camera::Camera(int ID, int entityID) : Component(ID, entityID){}
+
+void Camera::Start(){
     transform = SIMPLESDL::GetComponent<Transform>(entityID);
+    SetBackgroundColor(Color());
 }
 
 void Camera::Render(){
@@ -55,5 +58,3 @@ void Camera::SetBackgroundColor(Color _backgroundColor){
         backgroundColor.red, backgroundColor.green, backgroundColor.blue, backgroundColor.alpha
     ); 
 }
-
-//void Camera::ClearRenderizables(){ renderizables.clear(); }*/

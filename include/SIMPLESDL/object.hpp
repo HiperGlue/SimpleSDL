@@ -8,7 +8,7 @@
 class Entity{
     public:
         int ID;
-        int componentCount;
+        int componentCounter;
         Entity(int _ID);
 };
 
@@ -23,6 +23,7 @@ class Component{
         int GetEntityID();
         int GetComponentID();
 
+        virtual void Start();
         virtual void Update();
 };
 
@@ -99,5 +100,6 @@ class Sprite : public Component{
 
         Sprite(int ID, int entityID);
 
-        void Update() override {};
+        void Start() override;
+        void Update() override;
 };

@@ -21,6 +21,7 @@ class Camera : public Component{
         
         Camera(int ID, int entityID);
 
+        void Start() override;
         void Render();
 
         /*------------------------------MAIN FUNCTIONS------------------------------*/
