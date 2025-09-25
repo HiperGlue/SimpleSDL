@@ -40,7 +40,7 @@ struct Vector{
     Vector operator + (const Vector &v) const;
     Vector operator - (const Vector &v) const;
     Vector operator * (const float &s) const;
-    float operator * (const Vector &v) const;
+    Vector operator * (const Vector &v) const;
 };
 
 struct Color{

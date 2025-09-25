@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "SIMPLESDL/engine.hpp"
 #include "SIMPLESDL/collisions.hpp"
 
@@ -25,16 +27,25 @@ const std::shared_ptr<Transform>& Collider::GetTransform(){ return transform; }
 
 bool Collider::CheckCollisions(Vector newPosition){
     Vector srcPosition = newPosition + offset;
-    Vector srcSize = transform->GetSize() * size;
+    Vector srcSize = transform->GetSize() * size * 0.5f;
 
     for (int i = 0; i < SIMPLESDL::GetEntityCounter(); i++){
+        if (entityID == i) continue;
+
         auto colliders = SIMPLESDL::GetComponents<Collider>(i);
 
         for (auto collider : colliders){
             Vector destPosition = collider->GetTransform()->GetPosition() + collider->GetOffset();
-            Vector destSize = collider->GetTransform()->GetSize() * collider->GetSize();
+            Vector destSize = collider->GetTransform()->GetSize() * collider->GetSize() * 0.5f;
 
-            //DO THE MATH
+            if (
+                srcPosition.x + srcSize.x <= destPosition.x - destSize.x ||
+                srcPosition.x - srcSize.x >= destPosition.x + destSize.x ||
+                srcPosition.y + srcSize.y <= destPosition.y - destSize.y ||
+                srcPosition.y - srcSize.y >= destPosition.y + destSize.y
+            ){ continue; }
+
+            return true;
         }
     }
 

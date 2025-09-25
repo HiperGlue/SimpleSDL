@@ -26,7 +26,7 @@ bool Vector::operator == (const Vector &v) const{ return (x == v.x && y == v.y);
 Vector Vector::operator + (const Vector &v) const{ return Vector(x + v.x, y + v.y); }
 Vector Vector::operator - (const Vector &v) const{ return Vector(x - v.x, y - v.y); }
 Vector Vector::operator * (const float &s) const{ return Vector(x * s, y * s); }
-float Vector::operator * (const Vector &v) const{ return x * v.x + y * v.y; }
+Vector Vector::operator * (const Vector &v) const{ return Vector(x * v.x, y * v.y); }
 
 
 
