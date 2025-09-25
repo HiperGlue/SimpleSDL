@@ -10,10 +10,12 @@ void Camera::Start(){
     SetBackgroundColor(Color());
 }
 
+void Camera::Update(){}
+
 void Camera::Render(){
     Vector renderSizeHalf = transform->GetSize() * .5f;
 
-    for (int i = 0; i < SIMPLESDL::GetEntityCount(); i++){
+    for (int i = 0; i < SIMPLESDL::GetEntityCounter(); i++){
         std::vector<std::shared_ptr<Sprite>> entitySprites = SIMPLESDL::GetComponents<Sprite>(i);
 
         for (auto objectSprite : entitySprites){
@@ -58,3 +60,5 @@ void Camera::SetBackgroundColor(Color _backgroundColor){
         backgroundColor.red, backgroundColor.green, backgroundColor.blue, backgroundColor.alpha
     ); 
 }
+
+const std::shared_ptr<Transform>& Camera::GetTransform(){ return transform; }

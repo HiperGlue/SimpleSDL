@@ -71,7 +71,7 @@ class SIMPLESDL{
         static SDL_Window* GetWindow();
         static bool IsRunning();
         static float DeltaTime();
-        static int GetEntityCount();
+        static int GetEntityCounter();
 
         static bool GetKeyDown(SDL_Keycode key);
         static bool GetKeyHold(SDL_Keycode key);
@@ -106,8 +106,7 @@ class SIMPLESDL{
                 "Error! Type must be derived from Component"
             );
 
-            for (int i = 0; i < Get().components.size(); i++){
-                std::shared_ptr<Component> component = Get().components[i];
+            for (auto component : Get().components){
                 if (component->GetEntityID() != entityID) continue;
                 
                 std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component);
@@ -125,8 +124,7 @@ class SIMPLESDL{
 
             std::vector<std::shared_ptr<T>> castedComponents;
 
-            for (int i = 0; i < Get().components.size(); i++){
-                std::shared_ptr<Component> component = Get().components[i];
+            for (auto component : Get().components){
                 if (component->GetEntityID() != entityID) continue;
                 
                 std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component);

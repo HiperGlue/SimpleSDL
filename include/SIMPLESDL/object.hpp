@@ -58,6 +58,15 @@ class Transform : public Component{
         float angle;
         Vector size;
     public:
+        /*------------------------------GAME PROCESSES------------------------------*/
+
+        Transform(int ID, int entityID);
+
+        void Start() override;
+        void Update() override;
+
+        /*------------------------------MAIN FUNCTIONS------------------------------*/
+
         void SetPosition(Vector _position);
         void SetAngle(float _angle);
         void SetSize(Vector _size);
@@ -65,10 +74,6 @@ class Transform : public Component{
         Vector GetPosition();
         float GetAngle();
         Vector GetSize();
-
-        void Update() override {};
-
-        Transform(int ID, int entityID);
 };
 
 class Sprite : public Component{
@@ -82,6 +87,15 @@ class Sprite : public Component{
         bool mirrorX;
         bool mirrorY;
     public:
+        /*------------------------------GAME PROCESSES------------------------------*/
+
+        Sprite(int ID, int entityID);
+
+        void Start() override;
+        void Update() override;
+
+        /*------------------------------MAIN FUNCTIONS------------------------------*/
+
         void SetTexture(const char* imgFile, SDL_ScaleMode scaleMode = SDL_SCALEMODE_NEAREST);
         void SetColor(SDL_Color _color);
         void SetFlipX(bool _flipX);
@@ -95,11 +109,4 @@ class Sprite : public Component{
         bool GetFlipY();
         bool GetMirrorX();
         bool GetMirrorY();
-
-        /*------------------------------GAME PROCESSES------------------------------*/
-
-        Sprite(int ID, int entityID);
-
-        void Start() override;
-        void Update() override;
 };

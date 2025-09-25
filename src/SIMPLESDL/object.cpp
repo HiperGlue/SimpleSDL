@@ -1,7 +1,7 @@
 #include "SIMPLESDL/engine.hpp"
 #include "SIMPLESDL/object.hpp"
 
-Entity::Entity(int _ID){ ID = _ID; }
+Entity::Entity(int _ID){ ID = _ID; componentCounter = 0; }
 
 
 
@@ -45,6 +45,9 @@ Transform::Transform(int ID, int entityID) : Component(ID, entityID){
     size = Vector();
 };
 
+void Transform::Start() {}
+void Transform::Update() {}
+
 void Transform::SetPosition(Vector _position){ position = _position; }
 void Transform::SetAngle(float _angle){ angle = _angle; }
 void Transform::SetSize(Vector _size){ size = _size; }
@@ -66,6 +69,9 @@ Sprite::Sprite(int ID, int entityID) : Component(ID, entityID){
     mirrorY = false;
 };
 
+void Sprite::Start() {}
+void Sprite::Update() {}
+
 void Sprite::SetTexture(const char* file, SDL_ScaleMode scaleMode){ texture = SIMPLESDL::LoadTexture(file, scaleMode); }
 void Sprite::SetFlipX(bool _flipX) { flipX = _flipX; }
 void Sprite::SetFlipY(bool _flipY) { flipY = _flipY; }
@@ -78,8 +84,3 @@ bool Sprite::GetFlipX() { return flipX; }
 bool Sprite::GetFlipY() { return flipY; }
 bool Sprite::GetMirrorX() { return mirrorX; }
 bool Sprite::GetMirrorY() { return mirrorY; }
-
-void Sprite::Start(){
-    
-}
-void Sprite::Update(){}

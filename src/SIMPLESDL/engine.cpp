@@ -148,7 +148,7 @@ SDL_Renderer* SIMPLESDL::GetRenderer(){ return Get().renderer; }
 SDL_Window* SIMPLESDL::GetWindow(){ return Get().window; }
 bool SIMPLESDL::IsRunning(){ return Get().ISRUNNING; }
 float SIMPLESDL::DeltaTime(){ return Get().deltaTime; }
-int SIMPLESDL::GetEntityCount() { return Get().entities.size(); }
+int SIMPLESDL::GetEntityCounter() { return Get().entities.size(); }
 
 void SIMPLESDL::Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags, Uint32 initFlags){
     if (!instance){

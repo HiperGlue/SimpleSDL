@@ -9,15 +9,34 @@ Vector Collider::GetSize(){ return size; }
 
 /*------------------------------GAME PROCESSES------------------------------*/
 
-Collider::Collider(std::shared_ptr<Transform> _transform){
-    transform = _transform;
+Collider::Collider(int ID, int entityID) : Component(ID, entityID){
+    offset = Vector();
+    size = Vector(1,1);
 }
+
+void Collider::Start(){
+    transform = SIMPLESDL::GetComponent<Transform>(entityID);
+}
+void Collider::Update(){}
 
 /*------------------------------MAIN FUNCTIONS------------------------------*/
 
-/*void Collider::CalculateCollision(){
-    auto collidables = SIMPLESDL::GetCollidables();
-    for (int i = 0; i < collidables.size(); i++){
-        auto collidable = collidables[i];
+const std::shared_ptr<Transform>& Collider::GetTransform(){ return transform; }
+
+bool Collider::CheckCollisions(Vector newPosition){
+    Vector srcPosition = newPosition + offset;
+    Vector srcSize = transform->GetSize() * size;
+
+    for (int i = 0; i < SIMPLESDL::GetEntityCounter(); i++){
+        auto colliders = SIMPLESDL::GetComponents<Collider>(i);
+
+        for (auto collider : colliders){
+            Vector destPosition = collider->GetTransform()->GetPosition() + collider->GetOffset();
+            Vector destSize = collider->GetTransform()->GetSize() * collider->GetSize();
+
+            //DO THE MATH
+        }
     }
-}*/
+
+    return false;
+}

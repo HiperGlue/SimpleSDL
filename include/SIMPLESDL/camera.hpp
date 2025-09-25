@@ -10,21 +10,23 @@
 
 class Camera : public Component{
     protected:
+        std::shared_ptr<Transform> transform;
+
         Color backgroundColor;
         SDL_Renderer* targetRenderer;
     public:
-        std::shared_ptr<Transform> transform;
-
-        void SetRenderTarget(SDL_Renderer* _targetRenderer);
-
         /*------------------------------GAME PROCESSES------------------------------*/
         
         Camera(int ID, int entityID);
 
         void Start() override;
+        void Update() override;
         void Render();
 
         /*------------------------------MAIN FUNCTIONS------------------------------*/
 
+        void SetRenderTarget(SDL_Renderer* _targetRenderer);
         void SetBackgroundColor(Color _backgroundColor);
+
+        const std::shared_ptr<Transform>& GetTransform();
 };
