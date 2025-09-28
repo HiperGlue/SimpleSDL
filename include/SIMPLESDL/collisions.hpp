@@ -11,14 +11,6 @@ class Collider : public Component{
         Vector offset;
         Vector size;
     public:
-        void SetOffset(Vector _offset);
-        void SetSize(Vector _size);
-
-        const std::shared_ptr<Transform>& GetTransform();
-
-        Vector GetOffset();
-        Vector GetSize();
-
         /*------------------------------GAME PROCESSES------------------------------*/
 
         Collider(int ID, int entityID);
@@ -27,5 +19,15 @@ class Collider : public Component{
 
         /*------------------------------MAIN FUNCTIONS------------------------------*/
 
-        bool CheckCollisions(Vector newPosition);
+        void SetOffset(Vector _offset);
+        void SetSize(Vector _size);
+
+        const std::shared_ptr<Transform>& GetTransform();
+
+        Vector GetOffset();
+        Vector GetSize();
+
+        std::vector<Vector> GetColliderVerticies(Vector position);
+
+        Vector CollideAndSlide(Vector direction);
 };

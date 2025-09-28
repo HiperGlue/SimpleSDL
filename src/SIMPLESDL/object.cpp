@@ -1,5 +1,6 @@
 #include "SIMPLESDL/engine.hpp"
 #include "SIMPLESDL/object.hpp"
+#include "SIMPLESDL/utils.hpp"
 
 Entity::Entity(int _ID){ ID = _ID; componentCounter = 0; }
 
@@ -17,10 +18,38 @@ Component::~Component(){}
 Vector::Vector(float _x, float _y){
     x = _x;
     y = _y;
-    magnitude = SDL_sqrtf(x * x + y * y);
+    magnitude = SSDL_SQRT(x * x + y * y);
 }
 
-Vector Vector::Normalize(){ return Vector(x / magnitude, y / magnitude); }
+float Vector::GetX(){ return x; }
+float Vector::GetY(){ return y; }
+float Vector::GetMagnitude(){ return magnitude; }
+
+void Vector::SetX(float _x){ x = _x; magnitude = SSDL_SQRT(x * x + y * y); }
+void Vector::SetY(float _y){ y = _y; magnitude = SSDL_SQRT(x * x + y * y); }
+
+Vector Vector::Normalize(const Vector &srcVector){
+    if (srcVector.magnitude == 0) return Vector();
+    return Vector(srcVector.x / srcVector.magnitude, srcVector.y / srcVector.magnitude); 
+}
+float Vector::Dot(const Vector &srcVector, const Vector &destVector) { return srcVector.x * destVector.x + srcVector.y * destVector.y; }
+Vector Vector::Perpendicular(const Vector &srcVector){ 
+    return Vector::Normalize(Vector(-srcVector.y, srcVector.x)); 
+}
+Vector Vector::Project(const Vector &srcVector, const Vector &destVector){
+    if (destVector.magnitude == 0) return Vector();
+    return Vector::Normalize(destVector * (Vector::Dot(srcVector, destVector) / (destVector.magnitude * destVector.magnitude)));
+}
+Vector Vector::Rotate(const Vector &srcVector, const float angle){
+    float radAngle = SSDL_DEG2RADS(angle);
+    float cos = SSDL_COS(radAngle);
+    float sin = SSDL_SIN(radAngle);
+    
+    float x = srcVector.x * cos - srcVector.y * sin;
+    float y = -(srcVector.x * sin + srcVector.y * cos);
+
+    return Vector(x,y);
+}
 
 bool Vector::operator == (const Vector &v) const{ return (x == v.x && y == v.y); }
 Vector Vector::operator + (const Vector &v) const{ return Vector(x + v.x, y + v.y); }

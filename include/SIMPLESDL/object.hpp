@@ -28,19 +28,31 @@ class Component{
 };
 
 struct Vector{
-    float x;
-    float y;
-    float magnitude;
+    private:
+        float x;
+        float y;
+        float magnitude;
+    public:
+        Vector(float _x = 0, float _y = 0);
 
-    Vector(float _x = 0, float _y = 0);
+        float GetX();
+        float GetY();
+        float GetMagnitude();
 
-    Vector Normalize();
+        void SetX(float _x);
+        void SetY(float _y);
 
-    bool operator == (const Vector &v) const;
-    Vector operator + (const Vector &v) const;
-    Vector operator - (const Vector &v) const;
-    Vector operator * (const float &s) const;
-    Vector operator * (const Vector &v) const;
+        static Vector Normalize(const Vector &srcVector);
+        static float Dot(const Vector &srcVector, const Vector &destVector);
+        static Vector Perpendicular(const Vector &srcVector);
+        static Vector Project(const Vector &srcVector, const Vector &destVector);
+        static Vector Rotate(const Vector &srcVector, const float angle);
+
+        bool operator == (const Vector &v) const;
+        Vector operator + (const Vector &v) const;
+        Vector operator - (const Vector &v) const;
+        Vector operator * (const float &s) const;
+        Vector operator * (const Vector &v) const;
 };
 
 struct Color{

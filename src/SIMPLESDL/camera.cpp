@@ -22,8 +22,8 @@ void Camera::Render(){
             std::shared_ptr<Transform> objectTransform = SIMPLESDL::GetComponent<Transform>(objectSprite->GetEntityID());
 
             Vector centeredPosition = Vector(
-                objectTransform->GetPosition().x - objectTransform->GetSize().x * .5f,
-                -objectTransform->GetPosition().y - objectTransform->GetSize().y * .5f
+                objectTransform->GetPosition().GetX() - objectTransform->GetSize().GetX() * .5f,
+                -objectTransform->GetPosition().GetY() - objectTransform->GetSize().GetY() * .5f
             );
 
             Color textureColor = objectSprite->GetColor();
@@ -37,12 +37,12 @@ void Camera::Render(){
             SDL_FlipMode renderFlip = (SDL_FlipMode)(objectSprite->GetFlipX() | (objectSprite->GetFlipY() * 2));
             
             Vector renderPosition = Vector(
-                centeredPosition.x + renderSizeHalf.x - transform->GetPosition().x,
-                centeredPosition.y + renderSizeHalf.y + transform->GetPosition().y
+                centeredPosition.GetX() + renderSizeHalf.GetX() - transform->GetPosition().GetX(),
+                centeredPosition.GetY() + renderSizeHalf.GetY() + transform->GetPosition().GetY()
             );
             float renderAngle = objectTransform->GetAngle() + transform->GetAngle();
 
-            SDL_FRect renderRect = { renderPosition.x, renderPosition.y, objectTransform->GetSize().x, objectTransform->GetSize().y };
+            SDL_FRect renderRect = { renderPosition.GetX(), renderPosition.GetY(), objectTransform->GetSize().GetX(), objectTransform->GetSize().GetY() };
             SDL_RenderTextureRotated(targetRenderer, renderTexture, NULL, &renderRect, renderAngle, NULL, renderFlip);
         }
     }
