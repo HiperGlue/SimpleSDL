@@ -13,15 +13,13 @@ struct Projection{
     float max;
 };
 
-void GetAxes(std::vector<Vector>& shapeAxis, const std::vector<Vector>& shapeVerticies){
-    Vector p1 = shapeVerticies[0];
-    Vector p2 = shapeVerticies[1];
-    Vector p3 = shapeVerticies[2];
+void GetAxes(std::vector<Vector>& shapeAxes, const std::vector<Vector>& shapeVerticies){
+    for (int i = 0; i < shapeVerticies.size(); i++){
+        Vector p1 = shapeVerticies[i];
+        Vector p2 = shapeVerticies[(i + 1) % shapeVerticies.size()];
 
-    Vector axis1 = Vector::Perpendicular(p1 - p2);
-    Vector axis2 = Vector::Perpendicular(p2 - p3);
-    shapeAxis.push_back(axis1);
-    shapeAxis.push_back(axis2);
+        shapeAxes.push_back(Vector::Perpendicular(p1 - p2));
+    }
 }
 
 Projection GetProjection(const Vector& axis, const std::vector<Vector>& shapeVerticies){
@@ -106,6 +104,9 @@ Vector Collider::CollideAndSlide(Vector direction){
         auto posibleCollisions = SIMPLESDL::GetComponents<Collider>(i);
 
         for (auto collision : posibleCollisions){
+            Vector minimumVector;
+            float minimumMagnitude = 1000000000000.0f;
+            
             std::vector<Vector> selfVerticies = GetColliderVerticies(transform->GetPosition() + direction);
             std::vector<Vector> otherVerticies = collision->GetColliderVerticies(collision->transform->GetPosition());
 
@@ -118,8 +119,14 @@ Vector Collider::CollideAndSlide(Vector direction){
                 selfProjection = GetProjection(axis, selfVerticies);
                 otherProjection = GetProjection(axis, otherVerticies);
 
-                if (!IsOverlaping(selfProjection, otherProjection)){
-                    return srcTargetPosition - offset;
+                if (!IsOverlaping(selfProjection, otherProjection)) return srcTargetPosition - offset;
+
+                float overlapMagnitude = SSDL_MIN(selfProjection.max, otherProjection.max) - SSDL_MAX(selfProjection.min, otherProjection.min);
+                if (overlapMagnitude < minimumMagnitude){
+                    if (selfProjection.min < otherProjection.min) axis = axis * -1;
+
+                    minimumVector = axis;
+                    minimumMagnitude = overlapMagnitude;
                 }
             }
 
@@ -127,12 +134,18 @@ Vector Collider::CollideAndSlide(Vector direction){
                 selfProjection = GetProjection(axis, selfVerticies);
                 otherProjection = GetProjection(axis, otherVerticies);
 
-                if (!IsOverlaping(selfProjection, otherProjection)){
-                    return srcTargetPosition - offset;
+                if (!IsOverlaping(selfProjection, otherProjection)) return srcTargetPosition - offset;
+
+                float overlapMagnitude = SSDL_MIN(selfProjection.max, otherProjection.max) - SSDL_MAX(selfProjection.min, otherProjection.min);
+                if (overlapMagnitude < minimumMagnitude){
+                    if (selfProjection.min < otherProjection.min) axis = axis * -1;
+
+                    minimumVector = axis;
+                    minimumMagnitude = overlapMagnitude;
                 }
             }
 
-            return srcOriginalPosition - offset;
+            return srcTargetPosition - offset + minimumVector * minimumMagnitude;
         }
     }
 

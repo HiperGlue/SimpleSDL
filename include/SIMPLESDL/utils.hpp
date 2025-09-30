@@ -11,3 +11,5 @@ float SSDL_DEG2RADS(float degrees);
 float SSDL_RADS2DEG(float radians);
 float SSDL_SQRT(float x);
 float SSDL_ABS(float x);
+float SSDL_MIN(float x1, float x2);
+float SSDL_MAX(float x1, float x2);

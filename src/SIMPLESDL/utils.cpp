@@ -37,3 +37,12 @@ float SSDL_ABS(float x){
     if (x < 0) return -x;
     return x;
 }
+
+float SSDL_MIN(float x1, float x2){
+    if (x1 <= x2) return x1;
+    return x2;
+}
+float SSDL_MAX(float x1, float x2){
+    if (x1 >= x2) return x1;
+    return x2;
+}
