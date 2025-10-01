@@ -8,7 +8,7 @@
 class Entity{
     public:
         int ID;
-        int componentCount;
+        int componentCounter;
         Entity(int _ID);
 };
 
@@ -23,23 +23,37 @@ class Component{
         int GetEntityID();
         int GetComponentID();
 
+        virtual void Start();
         virtual void Update();
 };
 
 struct Vector{
-    float x;
-    float y;
-    float magnitude;
+    private:
+        float x;
+        float y;
+        float magnitude;
+    public:
+        Vector(float _x = 0, float _y = 0);
 
-    Vector(float _x = 0, float _y = 0);
+        float GetX();
+        float GetY();
+        float GetMagnitude();
 
-    Vector Normalize();
+        void SetX(float _x);
+        void SetY(float _y);
 
-    bool operator == (const Vector &v) const;
-    Vector operator + (const Vector &v) const;
-    Vector operator - (const Vector &v) const;
-    Vector operator * (const float &s) const;
-    float operator * (const Vector &v) const;
+        static Vector Normalize(const Vector &srcVector);
+        static float Dot(const Vector &srcVector, const Vector &destVector);
+        static Vector Perpendicular(const Vector &srcVector);
+        static Vector Project(const Vector &srcVector, const Vector &destVector);
+        static Vector Rotate(const Vector &srcVector, const float angle);
+
+        bool operator == (const Vector &v) const;
+        Vector operator + (const Vector &v) const;
+        Vector operator - (const Vector &v) const;
+        Vector operator * (const float &s) const;
+        Vector operator * (const Vector &v) const;
+        Vector operator / (const Vector &v) const;
 };
 
 struct Color{
@@ -57,6 +71,15 @@ class Transform : public Component{
         float angle;
         Vector size;
     public:
+        /*------------------------------GAME PROCESSES------------------------------*/
+
+        Transform(int ID, int entityID);
+
+        void Start() override;
+        void Update() override;
+
+        /*------------------------------MAIN FUNCTIONS------------------------------*/
+
         void SetPosition(Vector _position);
         void SetAngle(float _angle);
         void SetSize(Vector _size);
@@ -64,10 +87,6 @@ class Transform : public Component{
         Vector GetPosition();
         float GetAngle();
         Vector GetSize();
-
-        void Update() override {};
-
-        Transform(int ID, int entityID);
 };
 
 class Sprite : public Component{
@@ -75,14 +94,26 @@ class Sprite : public Component{
         SDL_Texture* texture;
         Color color;
 
+        float unitPixelSize;
+
         bool flipX;
         bool flipY;
 
         bool mirrorX;
         bool mirrorY;
     public:
+        /*------------------------------GAME PROCESSES------------------------------*/
+
+        Sprite(int ID, int entityID);
+
+        void Start() override;
+        void Update() override;
+
+        /*------------------------------MAIN FUNCTIONS------------------------------*/
+
         void SetTexture(const char* imgFile, SDL_ScaleMode scaleMode = SDL_SCALEMODE_NEAREST);
-        void SetColor(SDL_Color _color);
+        void SetColor(Color _color);
+        void SetUnitPixelSize(float _unitPixelSize);
         void SetFlipX(bool _flipX);
         void SetFlipY(bool _flipY);
         void SetMirrorX(bool _flipX);
@@ -90,14 +121,9 @@ class Sprite : public Component{
 
         SDL_Texture* GetTexture();
         Color GetColor();
+        float GetUnitPixelSize();
         bool GetFlipX();
         bool GetFlipY();
         bool GetMirrorX();
         bool GetMirrorY();
-
-        /*------------------------------GAME PROCESSES------------------------------*/
-
-        Sprite(int ID, int entityID);
-
-        void Update() override {};
 };

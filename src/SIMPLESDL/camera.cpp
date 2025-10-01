@@ -3,22 +3,29 @@
 
 /*------------------------------GAME PROCESSES------------------------------*/
 
-Camera::Camera(int ID, int entityID) : Component(ID, entityID){
+Camera::Camera(int ID, int entityID) : Component(ID, entityID){}
+
+void Camera::Start(){
     transform = SIMPLESDL::GetComponent<Transform>(entityID);
+    SetBackgroundColor(Color());
 }
 
-void Camera::Render(){
-    Vector renderSizeHalf = transform->GetSize() * .5f;
+void Camera::Update(){}
 
-    for (int i = 0; i < SIMPLESDL::GetEntityCount(); i++){
+void Camera::Render(){
+    Vector windowResolution = SIMPLESDL::GetWindowResolution();
+    Vector resolutionRelation = windowResolution / targetResolution;
+
+    for (int i = 0; i < SIMPLESDL::GetEntityCounter(); i++){
         std::vector<std::shared_ptr<Sprite>> entitySprites = SIMPLESDL::GetComponents<Sprite>(i);
 
         for (auto objectSprite : entitySprites){
+            Vector renderFactor = resolutionRelation * objectSprite->GetUnitPixelSize();
             std::shared_ptr<Transform> objectTransform = SIMPLESDL::GetComponent<Transform>(objectSprite->GetEntityID());
 
             Vector centeredPosition = Vector(
-                objectTransform->GetPosition().x - objectTransform->GetSize().x * .5f,
-                -objectTransform->GetPosition().y - objectTransform->GetSize().y * .5f
+                objectTransform->GetPosition().GetX() - objectTransform->GetSize().GetX() * .5f,
+                -objectTransform->GetPosition().GetY() - objectTransform->GetSize().GetY() * .5f
             );
 
             Color textureColor = objectSprite->GetColor();
@@ -32,12 +39,18 @@ void Camera::Render(){
             SDL_FlipMode renderFlip = (SDL_FlipMode)(objectSprite->GetFlipX() | (objectSprite->GetFlipY() * 2));
             
             Vector renderPosition = Vector(
-                centeredPosition.x + renderSizeHalf.x - transform->GetPosition().x,
-                centeredPosition.y + renderSizeHalf.y + transform->GetPosition().y
+                centeredPosition.GetX() * renderFactor.GetX() - transform->GetPosition().GetX(),
+                centeredPosition.GetY() * renderFactor.GetY() + transform->GetPosition().GetY()
             );
             float renderAngle = objectTransform->GetAngle() + transform->GetAngle();
-
-            SDL_FRect renderRect = { renderPosition.x, renderPosition.y, objectTransform->GetSize().x, objectTransform->GetSize().y };
+            
+            SDL_FRect renderRect = { 
+                renderPosition.GetX() + windowResolution.GetX() * .5f,
+                renderPosition.GetY() + windowResolution.GetY() * .5f,
+                objectTransform->GetSize().GetX() * renderFactor.GetX(),
+                objectTransform->GetSize().GetY() * renderFactor.GetY()
+            };
+            
             SDL_RenderTextureRotated(targetRenderer, renderTexture, NULL, &renderRect, renderAngle, NULL, renderFlip);
         }
     }
@@ -45,7 +58,7 @@ void Camera::Render(){
 
 /*------------------------------MAIN FUNCTIONS------------------------------*/
 
-void Camera::SetRenderTarget(SDL_Renderer* _targetRenderer){ targetRenderer = _targetRenderer; }
+const std::shared_ptr<Transform>& Camera::GetTransform(){ return transform; }
 
 void Camera::SetBackgroundColor(Color _backgroundColor){ 
     backgroundColor = _backgroundColor; 
@@ -55,5 +68,6 @@ void Camera::SetBackgroundColor(Color _backgroundColor){
         backgroundColor.red, backgroundColor.green, backgroundColor.blue, backgroundColor.alpha
     ); 
 }
-
-//void Camera::ClearRenderizables(){ renderizables.clear(); }*/
+void Camera::SetTargetRenderer(SDL_Renderer* _targetRenderer){ targetRenderer = _targetRenderer; }
+void Camera::SetTargetResolution(float resolutionWidth, float resolutionHeight){ targetResolution = Vector(resolutionWidth, resolutionHeight); }
+void Camera::SetTargetResolution(Vector _targetResolution){ targetResolution = _targetResolution; }

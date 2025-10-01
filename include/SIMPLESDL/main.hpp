@@ -6,3 +6,4 @@
 #include <SIMPLESDL/collisions.hpp>
 #include <SIMPLESDL/engine.hpp>
 #include <SIMPLESDL/object.hpp>
+#include <SIMPLESDL/utils.hpp>

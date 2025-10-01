@@ -4,23 +4,31 @@
 
 #include "SIMPLESDL/object.hpp"
 
-class Collider{
+class Collider : public Component{
     private:
         std::shared_ptr<Transform> transform;
+
         Vector offset;
         Vector size;
     public:
+        /*------------------------------GAME PROCESSES------------------------------*/
+
+        Collider(int ID, int entityID);
+        void Start() override;
+        void Update() override;
+
+        /*------------------------------MAIN FUNCTIONS------------------------------*/
+
         void SetOffset(Vector _offset);
         void SetSize(Vector _size);
+
+        const std::shared_ptr<Transform>& GetTransform();
 
         Vector GetOffset();
         Vector GetSize();
 
-        /*------------------------------GAME PROCESSES------------------------------*/
+        std::vector<Vector> GetColliderVerticies(Vector position);
 
-        Collider(std::shared_ptr<Transform> _transform);
-
-        /*------------------------------MAIN FUNCTIONS------------------------------*/
-
-        void CalculateCollision();
+        bool CheckCollision(Vector direction);
+        Vector CollideAndSlide(Vector direction);
 };

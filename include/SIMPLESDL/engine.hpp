@@ -40,6 +40,7 @@ class SIMPLESDL{
         static SIMPLESDL& Get();
 
         void S_Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags, Uint32 renderFlags);
+        void S_Start();
         void S_Events();
         void S_Update();
         void S_Render();
@@ -53,14 +54,12 @@ class SIMPLESDL{
         
         int S_CreateNewEntity();
 
-        std::shared_ptr<Camera> S_MakeCamera(int entityID, SDL_Renderer* targetRenderer, Vector size);
-        std::shared_ptr<Sprite> S_MakeSprite(int entityID, const char* file, Vector size);
-
         void S_ClearObjects();
     public:
         /*------------------------------GAME PROCESSES------------------------------*/
 
         static void Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags = 0, Uint32 renderFlags = 0);
+        static void Start();
         static void Events();
         static void Update();
         static void Render();
@@ -70,9 +69,12 @@ class SIMPLESDL{
 
         static SDL_Renderer* GetRenderer();
         static SDL_Window* GetWindow();
+        static Vector GetWindowResolution();
+        static float GetWindowAspectRatio();
+        static std::shared_ptr<Camera> GetMainCamera();
+        static int GetEntityCounter();
         static bool IsRunning();
         static float DeltaTime();
-        static int GetEntityCount();
 
         static bool GetKeyDown(SDL_Keycode key);
         static bool GetKeyHold(SDL_Keycode key);
@@ -90,8 +92,8 @@ class SIMPLESDL{
 
             std::unique_ptr<Entity> entity = std::move(Get().entities[entityID]);
 
-            int componentID = entity->componentCount;
-            entity->componentCount++;
+            int componentID = entity->componentCounter;
+            entity->componentCounter++;
 
             std::shared_ptr<T> component = std::make_shared<T>(componentID, entityID);
             Get().components.push_back(component);
@@ -107,8 +109,7 @@ class SIMPLESDL{
                 "Error! Type must be derived from Component"
             );
 
-            for (int i = 0; i < Get().components.size(); i++){
-                std::shared_ptr<Component> component = Get().components[i];
+            for (auto component : Get().components){
                 if (component->GetEntityID() != entityID) continue;
                 
                 std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component);
@@ -126,8 +127,7 @@ class SIMPLESDL{
 
             std::vector<std::shared_ptr<T>> castedComponents;
 
-            for (int i = 0; i < Get().components.size(); i++){
-                std::shared_ptr<Component> component = Get().components[i];
+            for (auto component : Get().components){
                 if (component->GetEntityID() != entityID) continue;
                 
                 std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component);
@@ -136,7 +136,4 @@ class SIMPLESDL{
 
             return castedComponents;
         }
-
-        static std::shared_ptr<Camera> MakeCamera(int entityID, SDL_Renderer* targetRenderer, Vector size);
-        static std::shared_ptr<Sprite> MakeSprite(int entityID, const char* file, Vector size);
 };
