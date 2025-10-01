@@ -14,6 +14,8 @@ class Camera : public Component{
 
         Color backgroundColor;
         SDL_Renderer* targetRenderer;
+
+        Vector targetResolution;
     public:
         /*------------------------------GAME PROCESSES------------------------------*/
         
@@ -25,8 +27,10 @@ class Camera : public Component{
 
         /*------------------------------MAIN FUNCTIONS------------------------------*/
 
-        void SetRenderTarget(SDL_Renderer* _targetRenderer);
-        void SetBackgroundColor(Color _backgroundColor);
-
         const std::shared_ptr<Transform>& GetTransform();
+
+        void SetBackgroundColor(Color _backgroundColor);
+        void SetTargetRenderer(SDL_Renderer* _targetRenderer);
+        void SetTargetResolution(float resolutionWidth, float resolutionHeight);
+        void SetTargetResolution(Vector _targetResolution);
 };

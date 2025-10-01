@@ -29,5 +29,6 @@ class Collider : public Component{
 
         std::vector<Vector> GetColliderVerticies(Vector position);
 
+        bool CheckCollision(Vector direction);
         Vector CollideAndSlide(Vector direction);
 };

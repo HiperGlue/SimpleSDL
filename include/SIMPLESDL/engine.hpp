@@ -69,9 +69,12 @@ class SIMPLESDL{
 
         static SDL_Renderer* GetRenderer();
         static SDL_Window* GetWindow();
+        static Vector GetWindowResolution();
+        static float GetWindowAspectRatio();
+        static std::shared_ptr<Camera> GetMainCamera();
+        static int GetEntityCounter();
         static bool IsRunning();
         static float DeltaTime();
-        static int GetEntityCounter();
 
         static bool GetKeyDown(SDL_Keycode key);
         static bool GetKeyHold(SDL_Keycode key);

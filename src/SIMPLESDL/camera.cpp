@@ -13,12 +13,14 @@ void Camera::Start(){
 void Camera::Update(){}
 
 void Camera::Render(){
-    Vector renderSizeHalf = transform->GetSize() * .5f;
+    Vector windowResolution = SIMPLESDL::GetWindowResolution();
+    Vector resolutionRelation = windowResolution / targetResolution;
 
     for (int i = 0; i < SIMPLESDL::GetEntityCounter(); i++){
         std::vector<std::shared_ptr<Sprite>> entitySprites = SIMPLESDL::GetComponents<Sprite>(i);
 
         for (auto objectSprite : entitySprites){
+            Vector renderFactor = resolutionRelation * objectSprite->GetUnitPixelSize();
             std::shared_ptr<Transform> objectTransform = SIMPLESDL::GetComponent<Transform>(objectSprite->GetEntityID());
 
             Vector centeredPosition = Vector(
@@ -37,12 +39,18 @@ void Camera::Render(){
             SDL_FlipMode renderFlip = (SDL_FlipMode)(objectSprite->GetFlipX() | (objectSprite->GetFlipY() * 2));
             
             Vector renderPosition = Vector(
-                centeredPosition.GetX() + renderSizeHalf.GetX() - transform->GetPosition().GetX(),
-                centeredPosition.GetY() + renderSizeHalf.GetY() + transform->GetPosition().GetY()
+                centeredPosition.GetX() * renderFactor.GetX() - transform->GetPosition().GetX(),
+                centeredPosition.GetY() * renderFactor.GetY() + transform->GetPosition().GetY()
             );
             float renderAngle = objectTransform->GetAngle() + transform->GetAngle();
-
-            SDL_FRect renderRect = { renderPosition.GetX(), renderPosition.GetY(), objectTransform->GetSize().GetX(), objectTransform->GetSize().GetY() };
+            
+            SDL_FRect renderRect = { 
+                renderPosition.GetX() + windowResolution.GetX() * .5f,
+                renderPosition.GetY() + windowResolution.GetY() * .5f,
+                objectTransform->GetSize().GetX() * renderFactor.GetX(),
+                objectTransform->GetSize().GetY() * renderFactor.GetY()
+            };
+            
             SDL_RenderTextureRotated(targetRenderer, renderTexture, NULL, &renderRect, renderAngle, NULL, renderFlip);
         }
     }
@@ -50,7 +58,7 @@ void Camera::Render(){
 
 /*------------------------------MAIN FUNCTIONS------------------------------*/
 
-void Camera::SetRenderTarget(SDL_Renderer* _targetRenderer){ targetRenderer = _targetRenderer; }
+const std::shared_ptr<Transform>& Camera::GetTransform(){ return transform; }
 
 void Camera::SetBackgroundColor(Color _backgroundColor){ 
     backgroundColor = _backgroundColor; 
@@ -60,5 +68,6 @@ void Camera::SetBackgroundColor(Color _backgroundColor){
         backgroundColor.red, backgroundColor.green, backgroundColor.blue, backgroundColor.alpha
     ); 
 }
-
-const std::shared_ptr<Transform>& Camera::GetTransform(){ return transform; }
+void Camera::SetTargetRenderer(SDL_Renderer* _targetRenderer){ targetRenderer = _targetRenderer; }
+void Camera::SetTargetResolution(float resolutionWidth, float resolutionHeight){ targetResolution = Vector(resolutionWidth, resolutionHeight); }
+void Camera::SetTargetResolution(Vector _targetResolution){ targetResolution = _targetResolution; }

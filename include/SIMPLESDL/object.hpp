@@ -53,6 +53,7 @@ struct Vector{
         Vector operator - (const Vector &v) const;
         Vector operator * (const float &s) const;
         Vector operator * (const Vector &v) const;
+        Vector operator / (const Vector &v) const;
 };
 
 struct Color{
@@ -93,6 +94,8 @@ class Sprite : public Component{
         SDL_Texture* texture;
         Color color;
 
+        float unitPixelSize;
+
         bool flipX;
         bool flipY;
 
@@ -109,7 +112,8 @@ class Sprite : public Component{
         /*------------------------------MAIN FUNCTIONS------------------------------*/
 
         void SetTexture(const char* imgFile, SDL_ScaleMode scaleMode = SDL_SCALEMODE_NEAREST);
-        void SetColor(SDL_Color _color);
+        void SetColor(Color _color);
+        void SetUnitPixelSize(float _unitPixelSize);
         void SetFlipX(bool _flipX);
         void SetFlipY(bool _flipY);
         void SetMirrorX(bool _flipX);
@@ -117,6 +121,7 @@ class Sprite : public Component{
 
         SDL_Texture* GetTexture();
         Color GetColor();
+        float GetUnitPixelSize();
         bool GetFlipX();
         bool GetFlipY();
         bool GetMirrorX();

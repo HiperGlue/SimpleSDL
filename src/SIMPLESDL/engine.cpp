@@ -5,7 +5,7 @@ SIMPLESDL* SIMPLESDL::instance = nullptr;
 /*------------------------------GAME PROCESSES------------------------------*/
 
 SIMPLESDL& SIMPLESDL::Get(){
-    if (instance == nullptr) {
+    if (instance == nullptr){
         SDL_LogError(1, "Error! Use of undefined instance of SIMPLESDL!!");
         std::terminate();
     }
@@ -42,9 +42,9 @@ void SIMPLESDL::S_Init(const char* title, const char* iconFile, int posX, int po
     }
 
     int mainCameraID = CreateNewEntity();
-    AddComponent<Transform>(mainCameraID)->SetSize(Vector(width, height));
+    AddComponent<Transform>(mainCameraID);
     mainCamera = AddComponent<Camera>(mainCameraID);
-    mainCamera->SetRenderTarget(renderer);
+    mainCamera->SetTargetRenderer(renderer);
 }
 
 void SIMPLESDL::S_Start(){
@@ -146,9 +146,20 @@ int SIMPLESDL::S_CreateNewEntity(){
 
 SDL_Renderer* SIMPLESDL::GetRenderer(){ return Get().renderer; }
 SDL_Window* SIMPLESDL::GetWindow(){ return Get().window; }
+Vector SIMPLESDL::GetWindowResolution(){
+    int width, height;
+    SDL_GetWindowSize(Get().window, &width, &height);
+    return Vector(width, height);
+}
+float SIMPLESDL::GetWindowAspectRatio(){
+    float aspect;
+    SDL_GetWindowAspectRatio(Get().window, &aspect, NULL);
+    return aspect;
+}
+std::shared_ptr<Camera> SIMPLESDL::GetMainCamera(){ return Get().mainCamera; }
+int SIMPLESDL::GetEntityCounter(){ return Get().entities.size(); }
 bool SIMPLESDL::IsRunning(){ return Get().ISRUNNING; }
 float SIMPLESDL::DeltaTime(){ return Get().deltaTime; }
-int SIMPLESDL::GetEntityCounter() { return Get().entities.size(); }
 
 void SIMPLESDL::Init(const char* title, const char* iconFile, int posX, int posY, int width, int height, Uint32 windowFlags, Uint32 initFlags){
     if (!instance){
@@ -157,7 +168,7 @@ void SIMPLESDL::Init(const char* title, const char* iconFile, int posX, int posY
 
     Get().S_Init(title, iconFile, posX, posY, width, height, windowFlags, initFlags); 
 }
-void SIMPLESDL::Start() { Get().S_Start(); }
+void SIMPLESDL::Start(){ Get().S_Start(); }
 void SIMPLESDL::Events(){ Get().S_Events(); }
 void SIMPLESDL::Update(){ Get().S_Update(); }
 void SIMPLESDL::Render(){ Get().S_Render(); }
