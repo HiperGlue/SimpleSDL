@@ -57,7 +57,7 @@ Vector Collider::GetSize(){ return size; }
 
 /*------------------------------GAME PROCESSES------------------------------*/
 
-Collider::Collider(int ID, int entityID) : Component(ID, entityID){
+Collider::Collider(Uint32 _entityID, Uint32 counter) : Component(_entityID, counter){
     offset = Vector();
     size = Vector(1,1);
 }

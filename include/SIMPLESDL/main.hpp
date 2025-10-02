@@ -4,6 +4,7 @@
 
 #include <SIMPLESDL/camera.hpp>
 #include <SIMPLESDL/collisions.hpp>
+#include <SIMPLESDL/animation.hpp>
 #include <SIMPLESDL/engine.hpp>
 #include <SIMPLESDL/object.hpp>
 #include <SIMPLESDL/utils.hpp>

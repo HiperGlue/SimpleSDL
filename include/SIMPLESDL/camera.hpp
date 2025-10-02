@@ -19,7 +19,7 @@ class Camera : public Component{
     public:
         /*------------------------------GAME PROCESSES------------------------------*/
         
-        Camera(int ID, int entityID);
+        Camera(Uint32 _entityID, Uint32 counter);
 
         void Start() override;
         void Update() override;

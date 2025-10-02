@@ -7,21 +7,21 @@
 
 class Entity{
     public:
-        int ID;
-        int componentCounter;
-        Entity(int _ID);
+        Uint32 ID;
+        Uint32 componentCounter;
+        Entity(Uint32 _ID);
 };
 
 class Component{
     protected:
-        int ID;
-        int entityID;
+        Uint64 ID;
+        Uint32 entityID;
     public:
-        Component(int _ID, int _entityID);
+        Component(Uint32 _entityID, Uint32 counter);
         virtual ~Component() = 0;
 
-        int GetEntityID();
-        int GetComponentID();
+        Uint32 GetEntityID();
+        Uint64 GetComponentID();
 
         virtual void Start();
         virtual void Update();
@@ -73,7 +73,7 @@ class Transform : public Component{
     public:
         /*------------------------------GAME PROCESSES------------------------------*/
 
-        Transform(int ID, int entityID);
+        Transform(Uint32 _entityID, Uint32 counter);
 
         void Start() override;
         void Update() override;
@@ -104,7 +104,7 @@ class Sprite : public Component{
     public:
         /*------------------------------GAME PROCESSES------------------------------*/
 
-        Sprite(int ID, int entityID);
+        Sprite(Uint32 _entityID, Uint32 counter);
 
         void Start() override;
         void Update() override;

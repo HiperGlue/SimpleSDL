@@ -2,13 +2,15 @@
 #include "SIMPLESDL/object.hpp"
 #include "SIMPLESDL/utils.hpp"
 
-Entity::Entity(int _ID){ ID = _ID; componentCounter = 0; }
+Entity::Entity(Uint32 _ID){ ID = _ID; componentCounter = 0; }
 
 
 
-Component::Component(int _ID, int _entityID){ ID = _ID; entityID = _entityID; }
-int Component::GetEntityID(){ return entityID; }
-int Component::GetComponentID(){ return ID; }
+Component::Component(Uint32 _entityID, Uint32 counter){ 
+    ID = (_entityID << 16) | counter; entityID = _entityID; 
+}
+Uint32 Component::GetEntityID(){ return entityID; }
+Uint64 Component::GetComponentID(){ return ID; }
 void Component::Start(){}
 void Component::Update(){}
 Component::~Component(){}
@@ -69,7 +71,7 @@ Color::Color(Uint8 _red, Uint8 _green, Uint8 _blue , Uint8 _alpha){
 
 
 
-Transform::Transform(int ID, int entityID) : Component(ID, entityID){
+Transform::Transform(Uint32 _entityID, Uint32 counter) : Component(_entityID, counter){
     position = Vector();
     angle = 0;
     size = Vector(1,1);
@@ -88,7 +90,7 @@ Vector Transform::GetSize(){ return size; }
 
 
 
-Sprite::Sprite(int ID, int entityID) : Component(ID, entityID){
+Sprite::Sprite(Uint32 _entityID, Uint32 counter) : Component(_entityID, counter){
     texture = nullptr;
     color = Color();
 

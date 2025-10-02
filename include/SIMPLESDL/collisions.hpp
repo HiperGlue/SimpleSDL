@@ -13,7 +13,7 @@ class Collider : public Component{
     public:
         /*------------------------------GAME PROCESSES------------------------------*/
 
-        Collider(int ID, int entityID);
+        Collider(Uint32 _entityID, Uint32 counter);
         void Start() override;
         void Update() override;
 

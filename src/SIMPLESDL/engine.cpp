@@ -134,7 +134,7 @@ SDL_Texture* SIMPLESDL::S_LoadTexture(const char* file, SDL_ScaleMode scaleMode)
     return texture;
 }
 
-int SIMPLESDL::S_CreateNewEntity(){
+Uint32 SIMPLESDL::S_CreateNewEntity(){
     std::unique_ptr<Entity> entity = std::make_unique<Entity>(entityCounter);
     entities[entityCounter] = std::move(entity);
 
@@ -157,7 +157,7 @@ float SIMPLESDL::GetWindowAspectRatio(){
     return aspect;
 }
 std::shared_ptr<Camera> SIMPLESDL::GetMainCamera(){ return Get().mainCamera; }
-int SIMPLESDL::GetEntityCounter(){ return Get().entities.size(); }
+Uint32 SIMPLESDL::GetEntityCounter(){ return Get().entityCounter; }
 bool SIMPLESDL::IsRunning(){ return Get().ISRUNNING; }
 float SIMPLESDL::DeltaTime(){ return Get().deltaTime; }
 
@@ -178,4 +178,4 @@ bool SIMPLESDL::GetKeyHold(SDL_Keycode key){ return Get().S_GetKeyHold(key); }
 bool SIMPLESDL::GetKeyUp(SDL_Keycode key){ return Get().S_GetKeyUp(key); }
 SDL_Texture* SIMPLESDL::LoadTexture(const char* file, SDL_ScaleMode scaleMode){ return Get().S_LoadTexture(file, scaleMode); }
 
-int SIMPLESDL::CreateNewEntity(){ return Get().S_CreateNewEntity(); }
+Uint32 SIMPLESDL::CreateNewEntity(){ return Get().S_CreateNewEntity(); }
