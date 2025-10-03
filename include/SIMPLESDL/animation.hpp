@@ -1,21 +1,36 @@
 #pragma once
 
+#include <memory>
+#include <vector>
 #include <variant>
+
+#include "SIMPLESDL/object.hpp"
 
 struct Keyframe{
     int timestamp;
-    Uint64 componentID;
-    //needs to only be tied to component things
-    //something to relate the changed property to its owner
-    //the changed property
-    //the value or function
+    std::shared_ptr<Component> component;
+
+    Keyframe();
+};
+
+template<typename T> struct TKeyframe : Keyframe{
+    T value;
 };
 
 struct Animation{
     int tickrate;
     std::vector<Keyframe> keyframes;
+
+    Animation();
+    ~Animation();
 };
 
-class Animator{
-    Animation animation;
+class Animator : public Component{
+    public:
+        Animation animation;
+
+        Animator(Uint32 _entityID, Uint32 counter);
+
+        void Start() override;
+        void Update() override;
 };

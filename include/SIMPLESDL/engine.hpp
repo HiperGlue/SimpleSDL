@@ -4,7 +4,6 @@
 #include <vector>
 #include <concepts>
 #include <map>
-#include <unordered_map>
 
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
