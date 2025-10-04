@@ -5,11 +5,14 @@
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 
-class Entity{
-    public:
+struct Entity{
+    private:
         Uint32 ID;
         Uint32 componentCounter;
+    public:
         Entity(Uint32 _ID);
+        int GetComponentCounter();
+        int Increment();
 };
 
 class Component{
@@ -28,20 +31,13 @@ class Component{
 };
 
 struct Vector{
-    private:
+    public:
         float x;
         float y;
-        float magnitude;
-    public:
+
         Vector(float _x = 0, float _y = 0);
-
-        float GetX();
-        float GetY();
-        float GetMagnitude();
-
-        void SetX(float _x);
-        void SetY(float _y);
-
+        
+        static float Magnitude(const Vector &srcVector);
         static Vector Normalize(const Vector &srcVector);
         static float Dot(const Vector &srcVector, const Vector &destVector);
         static Vector Perpendicular(const Vector &srcVector);
@@ -66,32 +62,23 @@ struct Color{
 };
 
 class Transform : public Component{
-    private:
+    public:
         Vector position;
         float angle;
         Vector size;
-    public:
-        /*------------------------------GAME PROCESSES------------------------------*/
+
+        /*------------------------------COMPONENT PROCESSES------------------------------*/
 
         Transform(Uint32 _entityID, Uint32 counter);
 
         void Start() override;
         void Update() override;
-
-        /*------------------------------MAIN FUNCTIONS------------------------------*/
-
-        void SetPosition(Vector _position);
-        void SetAngle(float _angle);
-        void SetSize(Vector _size);
-
-        Vector GetPosition();
-        float GetAngle();
-        Vector GetSize();
 };
 
 class Sprite : public Component{
-    private:
+    protected:
         SDL_Texture* texture;
+    public:
         Color color;
 
         float unitPixelSize;
@@ -101,29 +88,16 @@ class Sprite : public Component{
 
         bool mirrorX;
         bool mirrorY;
-    public:
-        /*------------------------------GAME PROCESSES------------------------------*/
+
+        /*------------------------------COMPONENT PROCESSES------------------------------*/
 
         Sprite(Uint32 _entityID, Uint32 counter);
 
         void Start() override;
         void Update() override;
 
-        /*------------------------------MAIN FUNCTIONS------------------------------*/
+        /*--------------------------------MAIN FUNCTIONS--------------------------------*/
 
         void SetTexture(const char* imgFile, SDL_ScaleMode scaleMode = SDL_SCALEMODE_NEAREST);
-        void SetColor(Color _color);
-        void SetUnitPixelSize(float _unitPixelSize);
-        void SetFlipX(bool _flipX);
-        void SetFlipY(bool _flipY);
-        void SetMirrorX(bool _flipX);
-        void SetMirrorY(bool _flipY);
-
         SDL_Texture* GetTexture();
-        Color GetColor();
-        float GetUnitPixelSize();
-        bool GetFlipX();
-        bool GetFlipY();
-        bool GetMirrorX();
-        bool GetMirrorY();
 };

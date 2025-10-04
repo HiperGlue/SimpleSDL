@@ -6,12 +6,12 @@
 #include "SIMPLESDL/object.hpp"
 
 class Collider : public Component{
-    private:
+    protected:
         std::shared_ptr<Transform> transform;
-
+    public:
         Vector offset;
         Vector size;
-    public:
+
         /*------------------------------GAME PROCESSES------------------------------*/
 
         Collider(Uint32 _entityID, Uint32 counter);
@@ -20,13 +20,7 @@ class Collider : public Component{
 
         /*------------------------------MAIN FUNCTIONS------------------------------*/
 
-        void SetOffset(Vector _offset);
-        void SetSize(Vector _size);
-
         const std::shared_ptr<Transform>& GetTransform();
-
-        Vector GetOffset();
-        Vector GetSize();
 
         std::vector<Vector> GetColliderVerticies(Vector position);
 

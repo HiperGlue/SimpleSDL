@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <vector>
-#include <variant>
 
 #include "SIMPLESDL/object.hpp"
 
@@ -10,7 +9,8 @@ struct Keyframe{
     int timestamp;
     std::shared_ptr<Component> component;
 
-    Keyframe();
+    Keyframe(int _timestamp, std::shared_ptr<Component> _component) ;
+    virtual ~Keyframe() = 0;
 };
 
 template<typename T> struct TKeyframe : Keyframe{
@@ -22,7 +22,6 @@ struct Animation{
     std::vector<Keyframe> keyframes;
 
     Animation();
-    ~Animation();
 };
 
 class Animator : public Component{

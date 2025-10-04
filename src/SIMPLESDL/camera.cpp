@@ -19,15 +19,15 @@ void Camera::Render(){
     std::vector<std::shared_ptr<Sprite>> entitySprites = SIMPLESDL::GetComponents<Sprite>();
 
     for (auto objectSprite : entitySprites){
-        Vector renderFactor = resolutionRelation * objectSprite->GetUnitPixelSize();
+        Vector renderFactor = resolutionRelation * objectSprite->unitPixelSize;
         std::shared_ptr<Transform> objectTransform = SIMPLESDL::GetComponent<Transform>(objectSprite->GetEntityID());
 
         Vector centeredPosition = Vector(
-            objectTransform->GetPosition().GetX() - objectTransform->GetSize().GetX() * .5f,
-            -objectTransform->GetPosition().GetY() - objectTransform->GetSize().GetY() * .5f
+            objectTransform->position.x - objectTransform->size.x * .5f,
+            -objectTransform->position.y - objectTransform->size.y * .5f
         );
 
-        Color textureColor = objectSprite->GetColor();
+        Color textureColor = objectSprite->color;
         SDL_Texture* renderTexture = objectSprite->GetTexture();
         SDL_SetTextureColorMod
         (
@@ -35,19 +35,19 @@ void Camera::Render(){
             textureColor.red, textureColor.green, textureColor.blue
         );
 
-        SDL_FlipMode renderFlip = (SDL_FlipMode)(objectSprite->GetFlipX() | (objectSprite->GetFlipY() * 2));
+        SDL_FlipMode renderFlip = (SDL_FlipMode)(objectSprite->flipX | (objectSprite->flipY * 2));
         
         Vector renderPosition = Vector(
-            centeredPosition.GetX() * renderFactor.GetX() - transform->GetPosition().GetX(),
-            centeredPosition.GetY() * renderFactor.GetY() + transform->GetPosition().GetY()
+            centeredPosition.x * renderFactor.x - transform->position.x,
+            centeredPosition.y * renderFactor.y + transform->position.y
         );
-        float renderAngle = objectTransform->GetAngle() + transform->GetAngle();
+        float renderAngle = objectTransform->angle + transform->angle;
         
         SDL_FRect renderRect = { 
-            renderPosition.GetX() + windowResolution.GetX() * .5f,
-            renderPosition.GetY() + windowResolution.GetY() * .5f,
-            objectTransform->GetSize().GetX() * renderFactor.GetX(),
-            objectTransform->GetSize().GetY() * renderFactor.GetY()
+            renderPosition.x + windowResolution.x * .5f,
+            renderPosition.y + windowResolution.y * .5f,
+            objectTransform->size.x * renderFactor.x,
+            objectTransform->size.y * renderFactor.y
         };
         
         SDL_RenderTextureRotated(targetRenderer, renderTexture, NULL, &renderRect, renderAngle, NULL, renderFlip);

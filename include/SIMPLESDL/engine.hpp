@@ -82,7 +82,7 @@ class SIMPLESDL{
         static SDL_Texture* LoadTexture(const char* file, SDL_ScaleMode scaleMode);
         
         static Uint32 CreateNewEntity();
-        template <class T> static std::shared_ptr<T> AddComponent(Uint32 entityID){
+        template<class T> static std::shared_ptr<T> AddComponent(Uint32 entityID){
             static_assert(
                 !std::is_same<Component, T>::value &&
                 std::is_base_of<Component, T>::value,
@@ -91,14 +91,14 @@ class SIMPLESDL{
 
             std::unique_ptr<Entity> entity = std::move(Get().entities[entityID]);
 
-            std::shared_ptr<T> component = std::make_shared<T>(entityID, entity->componentCounter++);
+            std::shared_ptr<T> component = std::make_shared<T>(entityID, entity->Increment());
             Get().components.push_back(component);
 
             Get().entities[entityID] = std::move(entity);
 
             return component;
         }
-        template <class T> static std::shared_ptr<T> GetComponent(Uint32 entityID){
+        template<class T> static std::shared_ptr<T> GetComponent(Uint32 entityID){
             static_assert(
                 !std::is_same<Component, T>::value &&
                 std::is_base_of<Component, T>::value,
@@ -114,7 +114,7 @@ class SIMPLESDL{
 
             return nullptr;
         }
-        template <class T> static std::vector<std::shared_ptr<T>> GetComponents(){
+        template<class T> static std::vector<std::shared_ptr<T>> GetComponents(){
             static_assert(
                 !std::is_same<Component, T>::value &&
                 std::is_base_of<Component, T>::value,
@@ -130,7 +130,7 @@ class SIMPLESDL{
 
             return castedComponents;
         }
-        template <class T> static std::vector<std::shared_ptr<T>> GetComponents(Uint32 entityID){
+        template<class T> static std::vector<std::shared_ptr<T>> GetComponents(Uint32 entityID){
             static_assert(
                 !std::is_same<Component, T>::value &&
                 std::is_base_of<Component, T>::value,

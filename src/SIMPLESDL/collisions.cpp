@@ -47,14 +47,6 @@ float GetOverlap(const Projection& p1, const Projection& p2){
     return SSDL_MIN(p1.max, p2.max) - SSDL_MAX(p1.min, p2.min);
 }
 
-/*------------COLLIDER------------*/
-
-void Collider::SetOffset(Vector _offset){ offset = _offset; }
-void Collider::SetSize(Vector _size){ size = _size; }
-
-Vector Collider::GetOffset(){ return offset; }
-Vector Collider::GetSize(){ return size; }
-
 /*------------------------------GAME PROCESSES------------------------------*/
 
 Collider::Collider(Uint32 _entityID, Uint32 counter) : Component(_entityID, counter){
@@ -75,27 +67,27 @@ std::vector<Vector> Collider::GetColliderVerticies(Vector position){
     std::vector<Vector> verticies;
 
     Vector colliderPosition = position + offset;
-    Vector colliderSize = transform->GetSize() * size * 0.5f;
+    Vector colliderSize = transform->size * size * 0.5f;
 
     verticies.push_back(
-        Vector::Rotate(Vector(-colliderSize.GetX(), colliderSize.GetY()), transform->GetAngle()) + colliderPosition 
+        Vector::Rotate(Vector(-colliderSize.x,  colliderSize.y), transform->angle) + colliderPosition 
     );
     verticies.push_back(
-        Vector::Rotate(Vector(-colliderSize.GetX(), -colliderSize.GetY()), transform->GetAngle()) + colliderPosition 
+        Vector::Rotate(Vector(-colliderSize.x, -colliderSize.y), transform->angle) + colliderPosition 
     );
     verticies.push_back(
-        Vector::Rotate(Vector(colliderSize.GetX(), -colliderSize.GetY()), transform->GetAngle()) + colliderPosition 
+        Vector::Rotate(Vector(colliderSize.x,  -colliderSize.y), transform->angle) + colliderPosition 
     );
     verticies.push_back(
-        Vector::Rotate(Vector(colliderSize.GetX(), colliderSize.GetY()), transform->GetAngle()) + colliderPosition 
+        Vector::Rotate(Vector(colliderSize.x,   colliderSize.y), transform->angle) + colliderPosition 
     );
 
     return verticies;
 }
 
 bool Collider::CheckCollision(Vector direction){
-    Vector srcTargetPosition = transform->GetPosition() + direction;
-    Vector srcSize = transform->GetSize() * size * 0.5f;
+    Vector srcTargetPosition = transform->position + direction;
+    Vector srcSize = transform->size * size * 0.5f;
 
     for (int i = 0; i < SIMPLESDL::GetEntityCounter(); i++){
         if (entityID == i) continue;
@@ -103,8 +95,8 @@ bool Collider::CheckCollision(Vector direction){
         auto posibleCollisions = SIMPLESDL::GetComponents<Collider>(i);
 
         for (auto collision : posibleCollisions){
-            std::vector<Vector> selfVerticies = GetColliderVerticies(transform->GetPosition() + direction);
-            std::vector<Vector> otherVerticies = collision->GetColliderVerticies(collision->transform->GetPosition());
+            std::vector<Vector> selfVerticies = GetColliderVerticies(transform->position + direction);
+            std::vector<Vector> otherVerticies = collision->GetColliderVerticies(collision->transform->position);
 
             std::vector<Vector> axes;
             GetAxes(axes, selfVerticies);
@@ -126,8 +118,8 @@ bool Collider::CheckCollision(Vector direction){
 }
 
 Vector Collider::CollideAndSlide(Vector direction){
-    Vector srcTargetPosition = transform->GetPosition() + direction;
-    Vector srcSize = transform->GetSize() * size * 0.5f;
+    Vector srcTargetPosition = transform->position + direction;
+    Vector srcSize = transform->size * size * 0.5f;
 
     for (int i = 0; i < SIMPLESDL::GetEntityCounter(); i++){
         if (entityID == i) continue;
@@ -138,8 +130,8 @@ Vector Collider::CollideAndSlide(Vector direction){
             Vector minimumVector;
             float minimumMagnitude = 1000000000000.0f;
             
-            std::vector<Vector> selfVerticies = GetColliderVerticies(transform->GetPosition() + direction);
-            std::vector<Vector> otherVerticies = collision->GetColliderVerticies(collision->transform->GetPosition());
+            std::vector<Vector> selfVerticies = GetColliderVerticies(transform->position + direction);
+            std::vector<Vector> otherVerticies = collision->GetColliderVerticies(collision->transform->position);
 
             std::vector<Vector> axes;
             GetAxes(axes, selfVerticies);
