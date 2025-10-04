@@ -2,8 +2,13 @@
 
 #include <memory>
 #include <vector>
+#include <concepts>
 
 #include "SIMPLESDL/object.hpp"
+
+
+template<typename T> concept numeric = std::is_arithmetic_v<T>;
+
 
 struct Keyframe{
     int timestamp;
@@ -15,6 +20,12 @@ struct Keyframe{
 
 template<typename T> struct TKeyframe : Keyframe{
     T value;
+};
+
+template<numeric T> struct TKeyframe<T> : Keyframe{
+    T value;
+
+    void Interpolate();
 };
 
 struct Animation{

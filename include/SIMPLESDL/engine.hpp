@@ -12,6 +12,10 @@
 #include "SIMPLESDL/collisions.hpp"
 #include "SIMPLESDL/object.hpp"
 
+
+template<class T> concept DerivedComponent = !std::same_as<T, Component> && std::derived_from<T, Component>;
+
+
 class SIMPLESDL{
     private:
         static SIMPLESDL* instance;
@@ -82,13 +86,7 @@ class SIMPLESDL{
         static SDL_Texture* LoadTexture(const char* file, SDL_ScaleMode scaleMode);
         
         static Uint32 CreateNewEntity();
-        template<class T> static std::shared_ptr<T> AddComponent(Uint32 entityID){
-            static_assert(
-                !std::is_same<Component, T>::value &&
-                std::is_base_of<Component, T>::value,
-                "Error! Type must be derived from Component"
-            );
-
+        template<DerivedComponent T> static std::shared_ptr<T> AddComponent(Uint32 entityID){
             std::unique_ptr<Entity> entity = std::move(Get().entities[entityID]);
 
             std::shared_ptr<T> component = std::make_shared<T>(entityID, entity->Increment());
@@ -98,13 +96,7 @@ class SIMPLESDL{
 
             return component;
         }
-        template<class T> static std::shared_ptr<T> GetComponent(Uint32 entityID){
-            static_assert(
-                !std::is_same<Component, T>::value &&
-                std::is_base_of<Component, T>::value,
-                "Error! Type must be derived from Component"
-            );
-
+        template<DerivedComponent T> static std::shared_ptr<T> GetComponent(Uint32 entityID){
             for (auto component : Get().components){
                 if (component->GetEntityID() != entityID) continue;
                 
@@ -114,13 +106,7 @@ class SIMPLESDL{
 
             return nullptr;
         }
-        template<class T> static std::vector<std::shared_ptr<T>> GetComponents(){
-            static_assert(
-                !std::is_same<Component, T>::value &&
-                std::is_base_of<Component, T>::value,
-                "Error! Type must be derived from Component"
-            );
-
+        template<DerivedComponent T> static std::vector<std::shared_ptr<T>> GetComponents(){
             std::vector<std::shared_ptr<T>> castedComponents;
 
             for (auto component : Get().components){
@@ -130,13 +116,7 @@ class SIMPLESDL{
 
             return castedComponents;
         }
-        template<class T> static std::vector<std::shared_ptr<T>> GetComponents(Uint32 entityID){
-            static_assert(
-                !std::is_same<Component, T>::value &&
-                std::is_base_of<Component, T>::value,
-                "Error! Type must be derived from Component"
-            );
-
+        template<DerivedComponent T> static std::vector<std::shared_ptr<T>> GetComponents(Uint32 entityID){
             std::vector<std::shared_ptr<T>> castedComponents;
 
             for (auto component : Get().components){
